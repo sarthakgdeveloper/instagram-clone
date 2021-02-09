@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
 
-function App() {
+import './App.css';
+import UserPost from "./components/userPost/userPost";
+import UserSignIn from "./components/signIn/signIn";
+import UserSignUp from "./components/signup/signup";
+import {Switch, Route, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {createStructuredSelector} from 'reselect';
+import Header from './components/header/header';
+import { getCurrentUser } from './redux/mainUser/mainUserSelector';
+import { checkCurrentUser } from './redux/mainUser/mainUserAction';
+import User from './components/users/users'
+
+
+
+
+
+function App({currentUser, checkingCurrentUser, loadUserPost}) {
+  useEffect(() => {
+    checkingCurrentUser();
+  }, [checkingCurrentUser]);  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <Switch>
+        <Route exact path='/' component={UserPost}/>
+        <Route path='/signin' render={() => {
+          return currentUser ? <Redirect to='/'/>:<UserSignIn/>
+        }} />
+        <Route path='/signup' render={() => {
+          return currentUser ? <Redirect to='/'/>:<UserSignUp/>
+        }} />
+        <Route path='/users' component={User}/>
+      </Switch>
     </div>
   );
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  checkingCurrentUser: () => dispatch(checkCurrentUser()),
+})
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: getCurrentUser,
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

@@ -1,0 +1,128 @@
+.userProfile__container{
+    width: 60%;
+    margin: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    
+    a{
+        width: 100%;
+        text-align: center;
+        color: #000;
+    }
+
+    .userInfo__container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px;
+        
+        .userInfo{
+            width: 300px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
+            .userProfileImage__container{
+                // height: 100%;
+                // width: 100%;
+                
+                .userProfileImage{
+                    height: 150px;
+                    width: 150px;
+                }
+            }
+        }
+        
+        .userInfo:nth-child(2){
+            width: 540px;
+            
+            .userName__container{
+                width: 100%;
+                display: flex;
+                
+                div{
+                    margin: 5px 20px 5px 0px;
+                    
+                    h2{
+                        font-size: 28px;
+                        font-weight: lighter;
+                    }
+                    
+                    button{
+                        height: 38px;
+                        display: flex;
+                        align-items: center;
+                        background-color: #fafafa;
+                        border: 1px solid lightgray;
+                        border-radius: 5px;
+                        padding: 3px 10px;
+                        cursor: pointer;
+                        outline: none;
+                        font-weight: bold;
+                    }
+                }
+            }
+            
+            .userEngagement{
+                margin: 10px 0px 20px;
+                width: 60%;
+                margin-right: auto;
+                display: flex;
+                justify-content: space-between;
+            }
+            
+            .userBio{
+                height: 100%;
+                width: 100%;
+                text-align: start;
+                
+                p{
+                    display: block;
+                }
+            }
+            
+        }
+        
+        .userContent__Container{
+            width: 100%;
+            border-top: 1px solid lightgray;
+            border-radius: 5px;
+            
+            .userContent__controls{
+                border: 1px solid lightgray;
+                border-radius: 5px;
+                border-top: none;
+                width: 100%;
+                height: 50px;
+                display: flex;
+                justify-content: space-evenly;
+                
+                button{
+                    border: 1px solid lightgray;
+                    border-radius: 5px;
+                    outline: none;
+                    padding: 5px 10px;
+                    background-color: transparent;
+                    cursor: pointer;
+                    margin: 10px;
+                }
+            }
+            
+            .userContent{
+                border-radius: 5px;
+                border: 1px solid lightgray;
+                display: flex;
+                flex-wrap: wrap;
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+    }
+}
+
+

@@ -1,0 +1,88 @@
+.userPost__PopUp{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+    
+    .userPost__PopUpContainer{
+        height: 600px;
+        width: 900px;
+        display: flex;
+        
+        .userPost__PopUpImageContainer{
+            width: 500px;
+            height: 100%;
+            border: 1px solid #000;
+            
+            .userPost__PopUpImage{
+                width: 500px;
+                height: 500px;
+
+                img{
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+
+            .userPost__PopUpInfo{
+                background-color: #fff;
+                border: 1px solid #000;
+                height: 100px;
+                width: 500px;
+            }
+            
+        }
+        .userPost__PopUpCommentContainer{
+            background-color: #fff;
+            border: 1px solid #000;
+            width: 400px;
+            position: relative;
+
+            .userPost__PopUpComments{
+                width: 100%;
+                height: 530px;
+                display: flex;
+                flex-direction: column;
+                
+                div{
+                    padding: 10px 0;
+                    width: 90%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    display: flex;
+                    justify-content: space-between;
+
+                    .userPost__comments{
+                        width: 100%;
+                        word-wrap: break-word;
+                    }
+                }
+
+            }
+
+            .userPost__PopUpInputComment{
+                height: 50px;
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+            }
+        }
+        
+    }
+    .userPost__PopUpClose{
+        font-size: 22px;
+        margin-left: 5px;
+        border: 1px solid lightgray;
+        padding: 5px;
+        cursor: pointer;
+        background-color: #fafafa;
+    }
+}
+
+.show__PopUp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

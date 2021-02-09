@@ -1,0 +1,63 @@
+.newPost__Container{
+    width: 60%;
+    margin: auto;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+
+    div{
+        width: 550px;
+        height: 600px;
+        margin: auto;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        div{
+            border: none;
+            width: 300px;
+            height: 500px;
+
+            input{
+                border: none;
+                border-bottom: 1px solid lightgray;
+                outline: none;
+                margin: 20px;
+                text-align: center;
+                background-color: transparent;
+            } 
+            
+            .newPost__Image{
+                border: none;
+            }
+
+            button{
+                border: 1px solid lightgray;
+                outline: none;
+                border-radius: 5px;
+                margin: 20px;
+                background-color: #0095f6;
+                font-size: 18px;
+                font-weight: lighter;
+                color: #fff;
+            }
+        }
+    }
+}
+
+#myProgress {
+    border: 1px solid lightgray;
+    width: 100%;
+    height: 10px;
+    background-color: transparent;
+    margin: 10px 0;
+}
+
+#myBar {
+    margin: 0px;
+    width: 1%;
+    height: 10px;
+    background-color: #0095f6;
+}

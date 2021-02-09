@@ -1,0 +1,29 @@
+.follow__btnContainer{
+    width: 100%;
+    text-align: start;
+
+    
+    .follow__btn{
+        cursor: pointer;
+        border: 1px solid lightgray;
+        outline: none;
+        padding: 8px 30px;
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: .5px;
+        color: #fff;
+        background-color: #0095f6;
+        transition: .2s all ease;
+        
+        &:hover{
+            color: #0095f6;
+            background-color: #fafafa;
+        }
+    }
+}
+
+
+
+
+
+

@@ -10,7 +10,9 @@ import {createStructuredSelector} from 'reselect';
 import Header from './components/header/header';
 import { getCurrentUser } from './redux/mainUser/mainUserSelector';
 import { checkCurrentUser } from './redux/mainUser/mainUserAction';
-import User from './components/users/users'
+import User from './components/users/users';
+import {userPostLoaded} from './redux/user/userAction'
+import {firestore} from './Firebase/firebase.utils'
 
 
 
@@ -19,7 +21,30 @@ import User from './components/users/users'
 function App({currentUser, checkingCurrentUser, loadUserPost}) {
   useEffect(() => {
     checkingCurrentUser();
-  }, [checkingCurrentUser]);  
+    let obj = []
+    const postRef = firestore.collection(`post`).orderBy('timestamp', 'desc');
+    const postSnapshot = postRef.get();
+    postSnapshot.then(posts => {
+      const postDocs = posts.docs;
+      let check = checking();
+      for(let j = 0; j < postDocs.length; j++) {
+        check(postDocs)
+      }
+    })
+  }, [checkingCurrentUser, loadUserPost]);  
+
+
+  function checking(){
+    let i = 0;
+    let newArr = [];
+    return (postsArr) => {
+      postsArr.map(post => {
+        let postObj = post.data().posts;
+        let postArr = Object.values(postObj).reverse();
+      })
+      return i++
+    }
+  }
 
   return (
     <div className="App">
@@ -40,6 +65,7 @@ function App({currentUser, checkingCurrentUser, loadUserPost}) {
 
 const mapDispatchToProps = dispatch => ({
   checkingCurrentUser: () => dispatch(checkCurrentUser()),
+  loadUserPost: (post) => dispatch(userPostLoaded(post))
 })
 
 const mapStateToProps = createStructuredSelector({

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import {connect} from 'react-redux';
-import {incrementLike, addNewComment} from '../../redux/user/userAction';
-import {getPostLikes, getPostComments} from '../../redux/user/userSelector';
+import {Link} from 'react-router-dom';
+// import {incrementLike, addNewComment} from '../../redux/user/userAction';
+// import {getPostLikes, getPostComments} from '../../redux/user/userSelector';
 
 
 import './post.scss';
@@ -29,7 +30,7 @@ const Post = ({user}) => {
         <div className='post'>
             <div className='post__header'>
                 <Avatar className='post__avatar' alt={userName.toUpperCase()} src='/static/images/avatar/1.jpg'/>
-                <h3>{userName}</h3>
+                <h3><Link to={`/users/${userName}`}>{userName}</Link></h3>
             </div>
             <img src= {imageUrl} className='post__image'/>
             <div className="post__infoContainer">
@@ -54,7 +55,7 @@ const Post = ({user}) => {
             </div>
             <div>
                 <form className="post__commentInputContainer">
-                    <input type='text' placeholder='Add a Comment...' value={comment}/>
+                    <input type='text' placeholder='Add a Comment...'/>
                     <button type='submit' className='comment__postButton'>Post</button>
                 </form>
             </div>

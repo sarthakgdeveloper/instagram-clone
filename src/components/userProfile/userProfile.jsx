@@ -13,6 +13,7 @@ import "./userProfile.scss";
 const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
     
     const {userName, follower, following, Bio} = currentUser;
+    const postArray = post?Object.values(post):[];
 
     useEffect(() => {
         gettingUserPost(currentUser.userName)
@@ -60,10 +61,10 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
                     <button>Tagged</button>
                 </div>
                 <div className="userContent">
-                    {post? Object.values(post).map(userPost => {
+                    {postArray.reverse().map(userPost => {
                         return (
                         <UserContent userPost={userPost} key={userPost.id}/>
-                    )}):null}
+                    )})}
                 </div>
             </div>
         </div>

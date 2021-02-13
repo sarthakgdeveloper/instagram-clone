@@ -42,6 +42,7 @@ const AddNewPost = ({currentUser, changedCurrentUser}) => {
                   .then(url => {
                       const checking = async () => {
                         const userPostRef = firestore.doc(`post/${userName}`);
+                        const userEachPostRef = firestore.collection(`userPosts`).doc();
                         const snapshot = await userPostRef.get();
                         const userPostData = {...snapshot.data()};
                         const newPost = {
@@ -50,8 +51,13 @@ const AddNewPost = ({currentUser, changedCurrentUser}) => {
                         likes: [],
                         comments: [],
                         userName,
-                        id: userPostData.posts ? Object.keys(userPostData.posts).length + 1: 1
+                        id: userPostData.posts ? Object.keys(userPostData.posts).length + 1: 1,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
                         }
+                        await userEachPostRef.set({
+                            ...newPost
+                        })
+                        console.log(userEachPostRef)
                         if(snapshot.exists) {
                             await userPostRef.update({
                             posts: {

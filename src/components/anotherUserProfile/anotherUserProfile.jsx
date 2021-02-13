@@ -9,7 +9,6 @@ import {createStructuredSelector} from 'reselect';
 import UserContent from "../userContent/usersContent";
 import Avatar from '@material-ui/core/Avatar';
 import Loader from '../loader/loader';
-import {Redirect} from 'react-router-dom';
 
 
 import './anotherUserProfile.scss';
@@ -21,7 +20,7 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
     useEffect(() => {
         const username = match.params.username;
         getProfile({username});
-    }, [getProfile])
+    }, [getProfile, match.params.username])
     
     const {userName, Bio, profileImg, follower, following} = userData ? userData : {
         userName: match.params.username, 
@@ -30,6 +29,8 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
         follower: [], 
         following: []
     }
+
+    const arrayPost = post?Object.values(post):[];
     
     return !pageFound ? (
         <div className='userProfile__container'>
@@ -80,10 +81,10 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
                         <button>Tagged</button>
                     </div>
                     <div className="userContent">
-                        {post ? Object.values(post).map(userPost => {
+                        {arrayPost.reverse().map(userPost => {
                             return (
                             <UserContent userPost={userPost} key={userPost.id}/>
-                        )}): null}
+                        )})}
                     </div>
                 </div>
             </div>

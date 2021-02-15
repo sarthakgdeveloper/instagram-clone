@@ -8,10 +8,6 @@ import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
 
 
 const UserProfileRoute = ({match, currentUser}) => {
-    const {userName} = currentUser ? currentUser : {
-        userName: ''
-    }
-    console.log('yes')
     return (
     <div>
         <Switch>

@@ -6,18 +6,20 @@ import {signOut, getCurrentUserPost} from '../../redux/mainUser/mainUserAction';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {getCurrentUser, loadCurrentUserPost} from '../../redux/mainUser/mainUserSelector';
-import {Redirect, Link, Route} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import "./userProfile.scss";
 
 const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
     
-    const {userName, follower, following, Bio} = currentUser;
-    const postArray = post?Object.values(post):[];
-
     useEffect(() => {
         gettingUserPost(currentUser.userName)
-    }, [])
+    }, [gettingUserPost, currentUser.userName])
+
+    const {userName, follower, following, Bio} = currentUser;
+    const postArray = post?Object.values(post):[];
+    console.log(postArray, post)
+
 
     return(
     <div className='userProfile__container'>
@@ -29,7 +31,7 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
             </div>
             <div className="userInfo">
                 <div className="userName__container">
-                    <div className="username">
+                    <div className="username"> 
                         <h2>{userName}</h2>
                     </div>
                     <div className="user__logOut">

@@ -7,15 +7,13 @@ import {loadedProfile, userProfileScreenLoaded, changeInNewUser, noPageFound} fr
 function* loadingProfile({payload: {username}}) {
     try {
         yield put(userProfileScreenLoaded())
-        const {userDataRef, userPostRef} = yield getUserDataFromUserName(username);
+        const {userDataRef, postObj} = yield getUserDataFromUserName(username);
         console.log(userDataRef)
         if(!userDataRef) return yield put(noPageFound());
         const snapShot = yield userDataRef.get();
         const userData = {...snapShot.data()};
-        const PostSnapShot = yield userPostRef.get();
-        const userPostData = {...PostSnapShot.data()}
         yield put(loadedProfile({
-            userPostData: userPostData.posts,
+            userPostData: postObj,
             userData
         }));
     } catch (error) {

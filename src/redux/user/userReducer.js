@@ -18,7 +18,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case userTypes.LOADED_PROFILE:
             return {
                 ...state,
-                userData: action.payload.userData,
+                userData: action.payload.userData, 
                 userPost: action.payload.userPostData,
                 userProfileScreenLoaded: true,
                 pageNotFound: false

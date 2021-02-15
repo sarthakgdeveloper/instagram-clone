@@ -10,7 +10,7 @@ import {changeInCurrentUser} from '../../redux/mainUser/mainUserAction';
 import './addNewPost.scss';
 
 const AddNewPost = ({currentUser, changedCurrentUser}) => {
-    const {id, userName} = currentUser;
+    const {userName} = currentUser;
 
     const [caption, setCaption] = useState('');
     const [image, setImage] = useState(null);
@@ -57,24 +57,20 @@ const AddNewPost = ({currentUser, changedCurrentUser}) => {
                         await userEachPostRef.set({
                             ...newPost
                         })
-                        console.log(userEachPostRef)
+                        const userPostId = userEachPostRef.id;
                         if(snapshot.exists) {
                             await userPostRef.update({
                             posts: {
                                 ...userPostData.posts,
-                                [newPost.id]: {
-                                    ...newPost
-                                }
+                                [newPost.id]: userPostId
                             },
                             timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         })
                     } else {
                         await userPostRef.set({
                             posts: {
-                                [newPost.id]: {
-                                    ...newPost
-                                }
-                            },
+                            [newPost.id]: userPostId
+                        },
                             timestamp: firebase.firestore.FieldValue.serverTimestamp()
                         })
                         }

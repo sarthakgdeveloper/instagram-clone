@@ -1,41 +1,25 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-// import {incrementLike, addNewComment} from '../../redux/user/userAction';
+import {incrementLike} from '../../redux/posts/posts.action';
 // import {getPostLikes, getPostComments} from '../../redux/user/userSelector';
 
 
 import './post.scss';
 
-const Post = ({user}) => {
-    const [postLiked, onPostLiked] = useState('false');
-    const [comment, gettingCommentValue] = useState('');
+const Post = ({user, addLike}) => {
     const {userName, caption, imageUrl} = user;
-
-    // const handleChange = e => {
-    //     const {value} = e.target;
-    //     gettingCommentValue(value)
-    // }
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     if (comment.length > 1) {
-    //         addComment(user, comment);
-    //     } else {
-    //         alert('can not post empty comment');
-    //     }
-    //     gettingCommentValue('');
-    // }
     return (
         <div className='post'>
             <div className='post__header'>
                 <Avatar className='post__avatar' alt={userName.toUpperCase()} src='/static/images/avatar/1.jpg'/>
                 <h3><Link to={`/users/${userName}`}>{userName}</Link></h3>
             </div>
-            <img src= {imageUrl} className='post__image'/>
+            <img src= {imageUrl} className='post__image' alt='Postimage'/>
             <div className="post__infoContainer">
                 <div className="post__info">
-                    <span><i className={`far fa-heart`}></i></span>
+                    <span onClick={() => addLike(user)}><i className={`far fa-heart`}></i></span>
                     <span><i className="far fa-comment"></i></span>
                     <span><i className="fas fa-share"></i></span>
                 </div>
@@ -63,10 +47,10 @@ const Post = ({user}) => {
     )
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//     addLike: (user) => dispatch(incrementLike(user)),
-//     addComment: (user, comment) => dispatch(addNewComment(user, comment)),
-// })
+const mapDispatchToProps = (dispatch) => ({
+    addLike: (user) => dispatch(incrementLike(user)),
+    // addComment: (user, comment) => dispatch(addNewComment(user, comment)),
+})
 
 // const mapStateToProps = (state, user) => ({
 //     postLikes: getPostLikes(user)(state),
@@ -74,4 +58,4 @@ const Post = ({user}) => {
 // })
 
 
- export default connect(null)(Post);
+ export default connect(null, mapDispatchToProps)(Post);

@@ -22,29 +22,23 @@ function App({currentUser, checkingCurrentUser, loadUserPost}) {
   useEffect(() => {
     checkingCurrentUser();
     let obj = []
-    const postRef = firestore.collection(`post`).orderBy('timestamp', 'desc');
+    const postRef = firestore.collection(`userPosts`).orderBy('createdAt', 'desc');
     const postSnapshot = postRef.get();
     postSnapshot.then(posts => {
       const postDocs = posts.docs;
-      let check = checking();
-      for(let j = 0; j < postDocs.length; j++) {
-        check(postDocs)
-      }
+      postDocs.map(post => {
+        obj = [
+          ...obj,
+          {
+            ...post.data()
+          }
+        ]
+        return loadUserPost(obj)
+      })
+     
     })
   }, [checkingCurrentUser, loadUserPost]);  
 
-
-  function checking(){
-    let i = 0;
-    let newArr = [];
-    return (postsArr) => {
-      postsArr.map(post => {
-        let postObj = post.data().posts;
-        let postArr = Object.values(postObj).reverse();
-      })
-      return i++
-    }
-  }
 
   return (
     <div className="App">

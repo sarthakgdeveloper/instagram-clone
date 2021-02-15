@@ -54,10 +54,20 @@ export const getUserDataFromUserName = async (username) => {
         const userId = snapShotfromUsername.data();
         const userDataRef = firestore.doc(`users/${userId[username]}`);
         const snapShotfromUserId = await userDataRef.get();
+        const snapShotfromPostId = await userPostRef.get();
+        const post = Object.values({...snapShotfromPostId.data().posts});
+        let postObj = {};
+        for (let i = 0; i < post.length; i++) {
+            const userIdRef = firestore.doc(`userPosts/${post[i]}`);
+            const userIdSnapshot = await userIdRef.get();
+            const userPost = {...userIdSnapshot.data()};
+            const userPostId = userPost.id;
+            postObj[userPostId] = userPost;
+        }
         if(!snapShotfromUserId.exists) {
             return alert('user not found')
         }
-        return {userDataRef, userPostRef};
+        return {userDataRef, postObj};
     }
 }
 
@@ -114,9 +124,17 @@ export const getCurrentUserPost = async (username) => {
     const userPostRef = firestore.doc(`post/${username}`);
     const userPostSnapshot = await userPostRef.get();
     const userPostData = {...userPostSnapshot.data()};
-    return userPostData.posts;
+    const idOfPosts = Object.values(userPostData.posts);
+    let postObj = {};
+    for (let i = 0; i < idOfPosts.length; i++) {
+        const userIdRef = firestore.doc(`userPosts/${idOfPosts[i]}`);
+        const userIdSnapshot = await userIdRef.get();
+        const userPost = {...userIdSnapshot.data()};
+        const userPostId = userPost.id;
+        postObj[userPostId] = userPost;
+    }
+    return postObj
 }
-
 firebase.initializeApp(config);
 
 

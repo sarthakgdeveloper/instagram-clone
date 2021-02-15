@@ -24,7 +24,7 @@ const UserPostPopUp = ({postPopUp, userPost, handlePopUpClose}) => (
                 <div className="userPost__PopUpComments">
                     <div>
                         <p className='userPost__comments'>mainUser: commentdddddddddddddddddddddddddddddddddddddddddddddddddddddd</p>
-                        <span><i class="fas fa-times"></i></span>
+                        <span><i className="fas fa-times"></i></span>
                     </div>
                 </div>
                 <div className="userPost__PopUpInputComment">
@@ -35,7 +35,7 @@ const UserPostPopUp = ({postPopUp, userPost, handlePopUpClose}) => (
                 </div>
             </div>
             <div>
-                <span onClick={handlePopUpClose}><i class="fas fa-times userPost__PopUpClose"></i></span>
+                <span onClick={handlePopUpClose}><i className="fas fa-times userPost__PopUpClose"></i></span>
             </div>
         </div>
     </div>

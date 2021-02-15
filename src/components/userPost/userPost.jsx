@@ -15,7 +15,7 @@ import './userPost.scss';
 
 const UserPostPage = ({postState}) => {
     return postState ? postState.map(user => (
-        <Post key={`${user.userName}${user.Id}`}user={user}/>
+        <Post key={`${user.userName}${user.id}`}user={user}/>
     )) : (
         <div>hello</div>
     )

@@ -93,8 +93,9 @@ function* unFollowUser({payload: {newUserName, currentUser}}){
 }
 
 function* gettingUserPost({payload}) {
-    const userPost = yield getCurrentUserPost(payload);
-    yield put(loadUserPost(userPost))
+    const postObj = yield getCurrentUserPost(payload);
+    console.log(postObj)
+    yield put(loadUserPost(postObj))
 }
 function* onSignUpStart() {
     yield takeLatest(mainUserTypes.SIGN_UP_START, signUpStart)

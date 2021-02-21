@@ -63,11 +63,11 @@ export const changeInCurrentUser = (updatedUser) => ({
     payload: updatedUser
 })
 
-
-export const getUserPost = (userName) => ({
-    type: mainUserTypes.GET_USER_POST,
-    payload: userName
+export const changeInCurrentPost = (newPost, oldPost) => ({
+    type: mainUserTypes.CHANGE_IN_CURRENT_POST,
+    payload: {newPost, oldPost}
 })
+
 
 export const getCurrentUserPost = (userName) => ({
     type: mainUserTypes.GET_USER_POST,

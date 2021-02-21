@@ -3,20 +3,6 @@ import {createSelector} from 'reselect';
 const userState = (state) => {
     return state.user;
 }
-export const userPostState = (state) => {
-    return state.user.userPostData;
-}
-
-
-export const getPostLikes = userPost => createSelector([userPostState], (userData) => {
-    const user = Object.values(userPost)[0];
-    return userData ? userData[userData.indexOf(user)].userInfo.likes : null;
-})
-
-export const getPostComments = userPost => createSelector([userPostState], (userData) => {
-    const user = Object.values(userPost)[0];
-    return userData ? userData[userData.indexOf(user)].userInfo.comment:null;
-})
 
 
 export const getUserData = createSelector([userState], (user) => {

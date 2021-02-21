@@ -55,13 +55,14 @@ export const getUserDataFromUserName = async (username) => {
         const userDataRef = firestore.doc(`users/${userId[username]}`);
         const snapShotfromUserId = await userDataRef.get();
         const snapShotfromPostId = await userPostRef.get();
-        const post = Object.values({...snapShotfromPostId.data().posts});
+        const userPostData = {...snapShotfromPostId.data()};
+        const post = userPostData.posts || []
         let postObj = {};
         for (let i = 0; i < post.length; i++) {
             const userIdRef = firestore.doc(`userPosts/${post[i]}`);
             const userIdSnapshot = await userIdRef.get();
             const userPost = {...userIdSnapshot.data()};
-            const userPostId = userPost.id;
+            const userPostId = i+1;
             postObj[userPostId] = userPost;
         }
         if(!snapShotfromUserId.exists) {
@@ -124,17 +125,102 @@ export const getCurrentUserPost = async (username) => {
     const userPostRef = firestore.doc(`post/${username}`);
     const userPostSnapshot = await userPostRef.get();
     const userPostData = {...userPostSnapshot.data()};
-    const idOfPosts = Object.values(userPostData.posts);
+    const idOfPosts = userPostData.posts || [];
+    console.log(userPostData, idOfPosts)
     let postObj = {};
     for (let i = 0; i < idOfPosts.length; i++) {
         const userIdRef = firestore.doc(`userPosts/${idOfPosts[i]}`);
         const userIdSnapshot = await userIdRef.get();
         const userPost = {...userIdSnapshot.data()};
-        const userPostId = userPost.id;
+        const userPostId = i+1;
         postObj[userPostId] = userPost;
     }
     return postObj
 }
+
+export const startFetchingPosts = async () => {
+    let obj = {}
+    const postRef = firestore.collection(`userPosts`).orderBy('createdAt', 'desc');
+    const postSnapshot = await postRef.get();
+    postSnapshot.docs.map((post, indexOfPost) => {
+        const postObj = {
+            ...post.data()
+        }
+        return obj = {
+            ...obj,
+            [`${postObj.userName}_${indexOfPost+1}`]:{
+                ...postObj
+            }
+        }
+    })
+    return obj
+}
+
+export const incrementingLike = (post, currentUser) => {
+    const postRef = firestore.doc(`userPosts/${post.uid}`);
+    if (post.likes.includes(currentUser)) {
+        const indexOfUser = post.likes.indexOf(currentUser);
+        const {likes} = post;
+        likes.splice(indexOfUser, 1)
+        post = {
+            ...post,
+            likes
+        }
+        
+    } else{
+        post = {
+            ...post,
+            likes: [...post.likes, currentUser]
+        }
+    }
+    postRef.update(post)
+    return post;
+}
+
+export const gettingComment = (post, comment, currentUser) => {
+    const postRef = firestore.doc(`userPosts/${post.uid}`);
+    post = {
+        ...post,
+        comments: [...post.comments, {userName: currentUser, comment}]
+    }
+    postRef.update(post)
+    return post;
+}
+
+export const onRemovingComment = (post, comment) => {
+    const postRef = firestore.doc(`userPosts/${post.uid}`);
+    const {comments} = post;
+    const indexOfComment = comments.indexOf(comment);
+    comments.splice(indexOfComment, 1);
+    post = {
+        ...post,
+        comments
+    }
+    postRef.update(post);
+    return post;
+}
+
+export const deletingPost = async (post, currentUser) => {
+    const {uid, imageName} = post;
+    const postRef = firestore.doc(`post/${currentUser}`);
+    const userEachPostRef = firestore.doc(`userPosts/${uid}`);
+    const imageRef = fireStorage.ref(`images/${imageName}`);
+    const snapShotFromPost = await postRef.get();
+    const userPostData = {...snapShotFromPost.data()};
+    const postData = userPostData.posts;
+    if (!postData.includes(uid)) return null;
+    const indexOfPost = postData.indexOf(uid);
+    postData.splice(indexOfPost, 1);
+    const newUserPostData = {
+        posts: postData,
+        timestamp: userPostData.timestamp
+    }
+    await postRef.update(newUserPostData);
+    await userEachPostRef.delete();
+    await imageRef.delete();
+    return null;
+}
+
 firebase.initializeApp(config);
 
 

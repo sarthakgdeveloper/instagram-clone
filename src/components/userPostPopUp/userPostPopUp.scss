@@ -1,10 +1,12 @@
 .userPost__PopUp{
-    position: absolute;
-    top: 0;
+    position: fixed;
+    top:30px;
     left: 0;
     height: 100%;
     width: 100%;
     display: none;
+    z-index: 10;
+    background-color: rgba(0,0,0,.3);
     
     .userPost__PopUpContainer{
         height: 600px;
@@ -14,7 +16,6 @@
         .userPost__PopUpImageContainer{
             width: 500px;
             height: 100%;
-            border: 1px solid #000;
             
             .userPost__PopUpImage{
                 width: 500px;
@@ -28,17 +29,33 @@
 
             .userPost__PopUpInfo{
                 background-color: #fff;
-                border: 1px solid #000;
                 height: 100px;
                 width: 500px;
+
+                .post__infoContainer{
+                    width: 95%;
+                    margin: auto;
+                }
+
+                .popUp_Likes{
+                    width: 10%;
+                    text-align: center;
+                }
             }
             
         }
         .userPost__PopUpCommentContainer{
             background-color: #fff;
-            border: 1px solid #000;
             width: 400px;
             position: relative;
+
+            .userPost__popUpCaption{
+                padding: 10px;
+                margin: 10px;
+                font-weight: lighter;
+                font-size: 18px;
+                border-bottom: 1px solid lightgray;
+            }
 
             .userPost__PopUpComments{
                 width: 100%;
@@ -46,7 +63,7 @@
                 display: flex;
                 flex-direction: column;
                 
-                div{
+                .userPost__EachComment{
                     padding: 10px 0;
                     width: 90%;
                     margin-left: auto;
@@ -58,6 +75,16 @@
                         width: 100%;
                         word-wrap: break-word;
                     }
+
+                    .userPost__CommentDelete{
+                        opacity: 0;
+                        transition: .4s all ease;
+                        cursor: pointer;
+                    }
+
+                    &:hover .userPost__CommentDelete{
+                        opacity: 1;
+                    }
                 }
 
             }
@@ -67,17 +94,56 @@
                 width: 100%;
                 position: absolute;
                 bottom: 0;
+                border-top: 1px solid lightgray;
             }
         }
         
     }
-    .userPost__PopUpClose{
-        font-size: 22px;
-        margin-left: 5px;
-        border: 1px solid lightgray;
-        padding: 5px;
-        cursor: pointer;
-        background-color: #fafafa;
+    .userPost__PopUpCloseOption{
+        position: relative;
+
+        .userPost__PopUpClose{
+            font-size: 22px;
+            margin-left: 5px;
+            padding: 5px;
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+        .userPost__PostDelete{
+            font-size: 22px;
+            margin-left: 10px;
+            margin-top: 5px;
+            padding: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+        .post__Delete{
+            user-select: none;
+            position: absolute;
+            right: 40px;
+            background-color: #fff;
+            width: 200px;
+            height: 40px;
+            border: 1px solid lightgray;
+            display: none;
+
+            p{
+                font-size: 18px;
+                font-weight: lighter;
+                text-align: center;
+                width: 100%;
+                cursor: pointer;
+                transition: 0.4s all ease;
+
+                &:hover{
+                    background-color: #fafafa;
+                }
+            }
+        }
+        .DeleteOption__Show{
+            display: flex;
+            align-items: center;
+        }
     }
 }
 

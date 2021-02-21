@@ -16,9 +16,9 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
         gettingUserPost(currentUser.userName)
     }, [gettingUserPost, currentUser.userName])
 
+
     const {userName, follower, following, Bio} = currentUser;
     const postArray = post?Object.values(post):[];
-    console.log(postArray, post)
 
 
     return(
@@ -65,7 +65,7 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
                 <div className="userContent">
                     {postArray.reverse().map(userPost => {
                         return (
-                        <UserContent userPost={userPost} key={userPost.id}/>
+                        <UserContent userPost={userPost} key={userPost.uid} user='current'/>
                     )})}
                 </div>
             </div>

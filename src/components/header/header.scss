@@ -1,8 +1,12 @@
 .header__container{
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     background-color: #fff;
     border: 1px solid lightgray;
     height: 70px;
+    z-index: 10000;
 
     .header{
         width: 60%;

@@ -15,7 +15,8 @@ import './anotherUserProfile.scss';
 
 
 const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingUser, unfollowingUser, currentUser, addingFollower, deletingFollower, pageFound, post}) => {
-    const [followCheck, followChecker] = useState(currentUser?.following.includes(match.params.username)? 'UnFollow':'Follow');
+    console.log(currentUser);
+    const [followCheck, followChecker] = useState(currentUser?currentUser.following.includes(match.params.username)? 'UnFollow':'Follow':'Follow');
 
     useEffect(() => {
         const username = match.params.username;
@@ -81,9 +82,9 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
                         <button>Tagged</button>
                     </div>
                     <div className="userContent">
-                        {arrayPost.reverse().map(userPost => {
+                        {arrayPost.reverse().map((userPost, index) => {
                             return (
-                            <UserContent userPost={userPost} key={userPost.id}/>
+                            <UserContent userPost={userPost} key={`${userPost.uid}_${index}`} user='other'/>
                         )})}
                     </div>
                 </div>

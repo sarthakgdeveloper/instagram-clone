@@ -3,7 +3,7 @@ import Post from '../post/post';
 import {Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { getCurrentUser } from '../../redux/mainUser/mainUserSelector';
-import { userPostState } from '../../redux/user/userSelector';
+import { postState } from '../../redux/posts/posts.selector';
 import {createStructuredSelector} from 'reselect';
 
 
@@ -13,20 +13,21 @@ import {createStructuredSelector} from 'reselect';
 import './userPost.scss';
 
 
-const UserPostPage = ({postState}) => {
-    return postState ? postState.map(user => (
-        <Post key={`${user.userName}${user.id}`}user={user}/>
+const UserPostPage = ({userPostState}) => {
+    return userPostState ? userPostState.map(post => (
+        <Post key={`${post.uid}`}post={post}/>
     )) : (
         <div>hello</div>
     )
 }
 
-const UserPost = ({match, currentUser, postState, loadUserPost}) => {
+const UserPost = ({match, currentUser, userPostState}) => {
+    const userPostArr = Object.values(userPostState);
     return (
         <div>
             <Route exact path={`${match.path}`} render={() => {
                 return (
-                    <UserPostPage postState={postState}/>
+                    <UserPostPage userPostState={userPostArr}/>
                 )
             }}/>
             {!currentUser && <Redirect to='/signin'/>}
@@ -36,7 +37,7 @@ const UserPost = ({match, currentUser, postState, loadUserPost}) => {
 
 const mapStateToProps = createStructuredSelector({
     currentUser: getCurrentUser,
-    postState: userPostState
+    userPostState: postState
 })
 
 

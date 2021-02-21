@@ -1,4 +1,4 @@
-
+import {updatePostInObj} from '../posts/functionsInReducers'
 import mainUserTypes from './mainUserTypes';
 
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -41,6 +41,11 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentUser: action.payload
+            }
+        case mainUserTypes.CHANGE_IN_CURRENT_POST:
+            return {
+                ...state,
+                userPost: updatePostInObj(action.payload.newPost, action.payload.oldPost, state.userPost)
             }
         case mainUserTypes.LOADING_USER_POST:
             return {

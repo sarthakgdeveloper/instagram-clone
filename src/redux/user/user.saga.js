@@ -13,7 +13,7 @@ function* loadingProfile({payload: {username}}) {
         const snapShot = yield userDataRef.get();
         const userData = {...snapShot.data()};
         yield put(loadedProfile({
-            userPostData: postObj,
+            userPost: postObj,
             userData
         }));
     } catch (error) {

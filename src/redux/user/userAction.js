@@ -25,9 +25,9 @@ export const loadProfile = (username) => ({
     payload: username
 })
 
-export const loadedProfile = ({userData, userPostData}) => ({
+export const loadedProfile = ({userData, userPost}) => ({
     type: userTypes.LOADED_PROFILE,
-    payload: {userData, userPostData}
+    payload: {userData, userPost}
 })
 export const userProfileScreenLoaded = () => ({
     type: userTypes.USER_PROFILE_SCREEN_LOADED,
@@ -57,8 +57,7 @@ export const noPageFound = () => ({
     type: userTypes.NO_PAGE_FOUND
 })
 
-
-export const userPostLoaded = (post) => ({
-    type: userTypes.USER_POST_LOADED,
-    payload: post
+export const changeInOtherPost = (newPost, oldPost) => ({
+    type: userTypes.CHANGE_IN_OTHER_POST,
+    payload: {newPost, oldPost}
 })

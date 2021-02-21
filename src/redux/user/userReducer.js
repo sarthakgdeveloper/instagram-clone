@@ -1,13 +1,12 @@
-
+import {updatePostInObj} from '../posts/functionsInReducers'
 
 import userTypes from './userTypes';
 
 
 const INITIAL_STATE = {
     userProfileScreenLoaded: false,
-    userPostData: [],
     userData: null,
-    userPost: null,
+    userPost: [],
     pageNotFound: false
 };
 
@@ -19,7 +18,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userData: action.payload.userData, 
-                userPost: action.payload.userPostData,
+                userPost: [...Object.values(action.payload.userPost)],
                 userProfileScreenLoaded: true,
                 pageNotFound: false
             }
@@ -39,10 +38,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 pageNotFound: true,
                 userProfileScreenLoaded: true
             }
-        case userTypes.USER_POST_LOADED:
+        case userTypes.CHANGE_IN_OTHER_POST:
             return {
                 ...state,
-                userPostData: [...action.payload]
+                userPost: updatePostInObj(action.payload.newPost, action.payload.oldPost, state.userPost)
             }
 
         default:

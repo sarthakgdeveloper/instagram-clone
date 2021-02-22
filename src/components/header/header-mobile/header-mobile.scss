@@ -1,0 +1,45 @@
+.header__container{
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid lightgray;
+    height: 70px;
+    z-index: 10000;
+
+    .header{
+        width: 60%;
+        height: 100%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+
+        div {
+            
+            .header__logoContainer{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                
+                .header__logo{
+                    width: 100px;
+                    height: auto;
+                    object-fit: contain;
+                    user-select: none;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .lower{
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: auto;
+        height: 440px;
+        background-color: #fafafa;
+    }
+}

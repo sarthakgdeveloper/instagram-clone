@@ -115,7 +115,6 @@
             
             .userContent{
                 border-radius: 5px;
-                border: 1px solid lightgray;
                 display: flex;
                 flex-direction: column;
                 height: 33%;
@@ -128,9 +127,15 @@
 
 @media only screen and (max-width: 600px){
     .userProfile__container{
+        overflow: hidden;
         width: 100%;
 
         .userInfo__container{
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px auto;
             
             
             .userInfo{
@@ -162,7 +167,7 @@
             }
             .userInfo:nth-child(2){
                 width: 540px;
-                margin-left: 20px;
+                margin-left: 10px;
                 
                 .userName__container{
                     width: 100%;

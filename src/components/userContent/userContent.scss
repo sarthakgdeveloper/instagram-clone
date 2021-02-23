@@ -1,11 +1,31 @@
-.userContent__post{
-    margin: 10px;
-    height: 270px;
-    width: 270px;
-
-    img{
-        height: inherit;
-        width: inherit;
-        cursor: pointer;
+.userContent__PostContainer{
+    flex-grow: 1;
+    margin: 1px;
+    max-width: 33%;
+    .userContent__post{
+        flex: 1 0 0%;
+        margin: 10px 0;
+        max-height: 270px;
+        
+        img{
+            height: 100%;
+            user-select: none;
+            width: 100%;
+        }
     }
 }
+
+
+// @media only screen and (max-width: 600px){
+//     .userContent__PostContainer{
+//         margin: 3px;
+        
+//         .userContent__post{
+            
+//             // img{
+//             //     max-width: 90px;
+//             // //     max-height: 90px;
+//             // }
+//         }
+//     }
+// }

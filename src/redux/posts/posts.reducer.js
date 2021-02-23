@@ -11,7 +11,6 @@ const postReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
 
         case postTypes.LOAD_POSTS:
-            console.log(action.payload)
             return {
                 ...state,
                 loadPosts: {...action.payload}

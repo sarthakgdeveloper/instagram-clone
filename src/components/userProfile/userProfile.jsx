@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import UserContent from "../userContent/usersContent";
+import UserPostCollection from '../userPostCollection/userPostCollection'
 import {auth} from '../../Firebase/firebase.utils';
 import {signOut, getCurrentUserPost} from '../../redux/mainUser/mainUserAction';
 import {connect} from 'react-redux';
@@ -18,7 +18,27 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
 
 
     const {userName, follower, following, Bio} = currentUser;
-    const postArray = post?Object.values(post):[];
+    const postArray = post?Object.values(post).reverse():[];
+    const handleToPostObj = () => {
+        let postObj = []
+        const filteredPostCollection = postArray.map((post,index) => {
+            postObj = [
+                ...postObj,
+                post
+            ]
+            if (index === postArray.length-1) {
+                return postObj
+            }
+            if (postObj.length === 3) {
+                let newArr = [...postObj]
+                postObj = []
+                return newArr
+            }
+            return null
+        })
+        return filteredPostCollection
+    }
+    const postCollection = handleToPostObj();
 
 
     return(
@@ -63,10 +83,7 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
                     <button>Tagged</button>
                 </div>
                 <div className="userContent">
-                    {postArray.reverse().map(userPost => {
-                        return (
-                        <UserContent userPost={userPost} key={userPost.uid} user='current'/>
-                    )})}
+                    {postCollection.map((postArr,index) => postArr ? (<UserPostCollection userPost={postArr} key={index} user='current'/>):null)}
                 </div>
             </div>
         </div>

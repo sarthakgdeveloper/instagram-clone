@@ -6,7 +6,7 @@ import {addNewFollower, deleteOldFollower} from '../../redux/user/userAction';
 import {getUserData, isScreenLoaded, isPageFound, getUserPost} from '../../redux/user/userSelector';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
 import {createStructuredSelector} from 'reselect';
-import UserContent from "../userContent/usersContent";
+import UserPostCollection from '../userPostCollection/userPostCollection';
 import Avatar from '@material-ui/core/Avatar';
 import Loader from '../loader/loader';
 
@@ -31,7 +31,27 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
         following: []
     }
 
-    const arrayPost = post?Object.values(post):[];
+    const postArray = post?Object.values(post).reverse():[];
+    const handleToPostObj = () => {
+        let postObj = []
+        const filteredPostCollection = postArray.map((post,index) => {
+            postObj = [
+                ...postObj,
+                post
+            ]
+            if (index === postArray.length-1) {
+                return postObj
+            }
+            if (postObj.length === 3) {
+                let newArr = [...postObj]
+                postObj = []
+                return newArr
+            }
+            return null
+        })
+        return filteredPostCollection
+    }
+    const postCollection = handleToPostObj();
     
     return !pageFound ? (
         <div className='userProfile__container'>
@@ -82,10 +102,7 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
                         <button>Tagged</button>
                     </div>
                     <div className="userContent">
-                        {arrayPost.reverse().map((userPost, index) => {
-                            return (
-                            <UserContent userPost={userPost} key={`${userPost.uid}_${index}`} user='other'/>
-                        )})}
+                        {postCollection.map((postArr,index) => postArr ? (<UserPostCollection userPost={postArr} key={index} user='other'/>):null)}
                     </div>
                 </div>
             </div>

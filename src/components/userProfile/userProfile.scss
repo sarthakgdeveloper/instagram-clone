@@ -1,6 +1,7 @@
 .userProfile__container{
     width: 60%;
     margin: auto;
+    min-height: 100vh;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -116,8 +117,8 @@
                 border-radius: 5px;
                 border: 1px solid lightgray;
                 display: flex;
-                flex-wrap: wrap;
-                height: 100%;
+                flex-direction: column;
+                height: 33%;
                 width: 100%;
             }
         }
@@ -125,4 +126,68 @@
     }
 }
 
+@media only screen and (max-width: 600px){
+    .userProfile__container{
+        width: 100%;
+
+        .userInfo__container{
+            
+            
+            .userInfo{
+                
+                
+                .userProfileImage__container{
+                    
+                    
+                    .userProfileImage{
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+
+                .userName__container{
+
+                    h2{
+                        font-size: 28px;
+                    }
+
+                    .user__logOut{
+                        width: 80px;
+                    }
+                }
+
+                .userEngagement{
+                    width: 100%;
+                }
+            }
+            .userInfo:nth-child(2){
+                width: 540px;
+                margin-left: 20px;
+                
+                .userName__container{
+                    width: 100%;
+                    display: flex;
+                    
+                    div{
+                        
+                        h2{
+                            font-size: 22px;
+                        }
+                        
+                        button{
+                            width: 80px;
+            
+                        }
+                    }
+                }
+                
+                .userEngagement{
+                    
+                    width: 100%;
+                    
+                }
+            }
+        }
+    }
+}
 

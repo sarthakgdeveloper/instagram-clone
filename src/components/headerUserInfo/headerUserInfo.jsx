@@ -14,8 +14,8 @@ const HeaderUserInfo = ({currentUser}) => {
         <div className="header__userInfo">
             <div>
                 <Link to='/' className='header__userProfile'><i className="fas fa-house-user"></i></Link>
-                <Link><i className="far fa-comments"></i></Link>
-                <Link><i className="far fa-heart"></i></Link>
+                <Link to='/'><i className="far fa-comments"></i></Link>
+                <Link to='/'><i className="far fa-heart"></i></Link>
                 <Link to={`/users/${userName}`} className='header__userProfile'><i className="far fa-user"></i></Link>
             </div>
         </div>

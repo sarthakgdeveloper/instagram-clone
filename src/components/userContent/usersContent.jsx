@@ -13,12 +13,13 @@ const UserContent = ({userPost, user}) => {
         doPostPopUp(false);
     }
     return (
-    <div>
-        <div className='userContent__post' onClick={handlePopUpShow}>
-            <img src={imageUrl} alt=""/>
+        <div className='userContent__PostContainer'>
+            <div className='userContent__post' onClick={handlePopUpShow}>
+                <img src={imageUrl} alt=""/>
+            </div>
+            <UserPostPopUp postPopUp={postPopUp} userPost={userPost} handlePopUpClose={handlePopUpClose} user={user}/>
         </div>
-        <UserPostPopUp postPopUp={postPopUp} userPost={userPost} handlePopUpClose={handlePopUpClose} user={user}/>
-    </div>
-)}
+    )
+}
 
 export default UserContent;

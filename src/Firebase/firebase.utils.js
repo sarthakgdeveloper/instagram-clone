@@ -126,7 +126,7 @@ export const getCurrentUserPost = async (username) => {
     const userPostSnapshot = await userPostRef.get();
     const userPostData = {...userPostSnapshot.data()};
     const idOfPosts = userPostData.posts || [];
-    console.log(userPostData, idOfPosts)
+
     let postObj = {};
     for (let i = 0; i < idOfPosts.length; i++) {
         const userIdRef = firestore.doc(`userPosts/${idOfPosts[i]}`);

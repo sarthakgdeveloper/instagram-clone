@@ -10,15 +10,14 @@
     
     .userPost__PopUpContainer{
         height: 600px;
-        width: 900px;
+        width: 60%;
         display: flex;
         
         .userPost__PopUpImageContainer{
-            width: 500px;
+            width: 57%;
             height: 100%;
             
             .userPost__PopUpImage{
-                width: 500px;
                 height: 500px;
 
                 img{
@@ -30,7 +29,7 @@
             .userPost__PopUpInfo{
                 background-color: #fff;
                 height: 100px;
-                width: 500px;
+                width: 100%;
 
                 .post__infoContainer{
                     width: 95%;
@@ -46,7 +45,7 @@
         }
         .userPost__PopUpCommentContainer{
             background-color: #fff;
-            width: 400px;
+            width: 35%;
             position: relative;
 
             .userPost__popUpCaption{
@@ -151,4 +150,92 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (max-width: 600px){
+    .userPost__PopUp{
+        .userPost__PopUpContainer{
+            height: 300px;
+            width: 90%;
+            .userPost__PopUpImageContainer{
+                height: 100%;
+                
+                .userPost__PopUpImage{
+                    height: 250px;
+    
+                    img{
+                        height: 100%;
+                        width: 100%;
+                    }
+                }
+                .userPost__PopUpInfo {
+                    background-color: #fff;
+                    height: 50px;
+                    width: 100%;
+
+                    .post__infoContainer span{
+                        font-size: 12px;
+                    }
+                    .popUp_Likes{
+                        font-size: 10px;
+                        padding: 0 0 0 1px;
+                    }
+                }
+            }
+            .userPost__PopUpCommentContainer {
+                
+                .userPost__popUpCaption {
+                padding: 5px;
+                margin: 0;
+                font-weight: lighter;
+                font-size: 10px;
+                border-bottom: 1px solid lightgray;
+                }
+                .userPost__PopUpComments .userPost__EachComment {
+                    padding: 2px 0;
+
+                    .userPost__CommentDelete{
+                        padding: 0 0 0 5px;
+                        font-size: 8px;
+                    }
+                    .userPost__comments {
+                        font-size: 8px;
+                    }
+                }
+
+                .userPost__PopUpInputComment{
+                    .post__commentInputContainer{
+                        input{
+                            font-size: 8px;
+                        }
+                        .comment__postButton{
+                            font-size: 6px;
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+            .userPost__PopUpCloseOption{
+                .userPost__PopUpClose, .userPost__PostDelete{
+                    position: relative;
+                    top: -5px;
+                    font-size: 10px;
+                }
+                .userPost__PostDelete{
+                    left: -5px;
+                }
+                .userPost__PopUpClose{
+                    padding: 3px;
+                }
+                .DeleteOption__Show {
+                    width: 40px;
+                    height: 20px;
+                }
+                p{
+                    font-size: 8px;
+                }
+            }
+
+        }
+    }
 }

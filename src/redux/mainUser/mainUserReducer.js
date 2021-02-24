@@ -8,7 +8,8 @@ const INITIAL_STATE = {
     currentUser,
     error: null,
     isSignedUp: false,
-    userPost: null
+    userPost: null,
+    notification: {}
 };
 
 
@@ -51,6 +52,11 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userPost: action.payload
+            }
+        case mainUserTypes.LOADING_USER_NOTIFICATION:
+            return {
+                ...state,
+                notification: {...action.payload}
             }
         default:
             return{

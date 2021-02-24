@@ -4,7 +4,7 @@ import {updatePostInObj, addNewPost} from './functionsInReducers';
 const INITIAL_STATE = {
     loadPosts: {},
     postUploadRate: 0,
-    ifPostUpLoaded: false
+    ifPostUpLoaded: false,
 }
 
 const postReducer = (state = INITIAL_STATE, action) => {

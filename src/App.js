@@ -5,6 +5,7 @@ import UserPost from "./components/userPost/userPost";
 import UserSignIn from "./components/signIn/signIn";
 import UserSignUp from "./components/signup/signup";
 import {Switch, Route, Redirect} from 'react-router-dom';
+import {firestore} from './Firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import Header from './components/header/header';
@@ -12,16 +13,21 @@ import { getCurrentUser } from './redux/mainUser/mainUserSelector';
 import { checkCurrentUser } from './redux/mainUser/mainUserAction';
 import User from './components/users/users';
 import {getPost} from './redux/posts/posts.action';
+import {loadUserNotification} from './redux/mainUser/mainUserAction';
+import Notification from './components/Notification/Notification'
 
 
 
 
 
-function App({currentUser, checkingCurrentUser, loadUserPost}) {
+function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotification}) {
   useEffect(() => {
     checkingCurrentUser();
     loadUserPost();
-  }, [checkingCurrentUser, loadUserPost]);  
+    firestore.doc(`notifications/${currentUser.userName}`).onSnapshot(snapshot => {
+      getUserNotification({...snapshot.data()})
+    })
+  }, [checkingCurrentUser, loadUserPost, getUserNotification]);  
 
 
   return (
@@ -36,6 +42,7 @@ function App({currentUser, checkingCurrentUser, loadUserPost}) {
           return currentUser ? <Redirect to='/'/>:<UserSignUp/>
         }} />
         <Route path='/users' component={User}/>
+        <Route path='/notification' component={Notification}/>
       </Switch>
     </div>
   );
@@ -43,7 +50,8 @@ function App({currentUser, checkingCurrentUser, loadUserPost}) {
 
 const mapDispatchToProps = dispatch => ({
   checkingCurrentUser: () => dispatch(checkCurrentUser()),
-  loadUserPost: () => dispatch(getPost())
+  loadUserPost: () => dispatch(getPost()),
+  getUserNotification: (Notification) => dispatch(loadUserNotification(Notification))
 })
 
 const mapStateToProps = createStructuredSelector({

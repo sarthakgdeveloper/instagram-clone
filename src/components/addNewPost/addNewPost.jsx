@@ -95,7 +95,7 @@ const AddNewPost = ({currentUser, uploadPost}) => {
                             comments: [],
                             userName,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            uid: userEachPostRef.id
+                            uid: userEachPostRef.id,
                         }
                         await userEachPostRef.set({
                             ...newPost

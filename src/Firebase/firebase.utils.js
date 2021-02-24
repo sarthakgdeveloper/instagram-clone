@@ -156,8 +156,9 @@ export const startFetchingPosts = async () => {
     return obj
 }
 
-export const incrementingLike = (post, currentUser) => {
+export const incrementingLike = async (post, currentUser) => {
     const postRef = firestore.doc(`userPosts/${post.uid}`);
+    const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
     if (post.likes.includes(currentUser)) {
         const indexOfUser = post.likes.indexOf(currentUser);
         const {likes} = post;
@@ -168,17 +169,51 @@ export const incrementingLike = (post, currentUser) => {
         }
         
     } else{
+        if(!(post.userName === currentUser)){
+            const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
+            const snapshot = await userNotificationRef.get();
+            let notifications = {...snapshot.data()}; 
+            notifications = {
+                oldNotification: [...notifications.oldNotification],
+                newNotification: [
+                    {userName: currentUser,notification: `liked your Photo`,post, type: 'like'},
+                    ...notifications.newNotification, 
+                ]
+            }
+            if (snapshot.exists) {
+                await userNotificationRef.update(notifications); 
+            } else {
+                await userNotificationRef.set(notifications); 
+            }
+        }
         post = {
             ...post,
             likes: [...post.likes, currentUser]
         }
     }
-    postRef.update(post)
+    await postRef.update(post)
     return post;
 }
 
-export const gettingComment = (post, comment, currentUser) => {
+export const gettingComment = async (post, comment, currentUser) => {
     const postRef = firestore.doc(`userPosts/${post.uid}`);
+    if(!(post.userName === currentUser)) {
+        const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
+        const snapshot = await userNotificationRef.get();
+        let notifications = {...snapshot.data()}; 
+        notifications = {
+            oldNotification: [...notifications.oldNotification],
+            newNotification: [
+                {userName: currentUser,notification: `commented on your photo`,post, type: "comment",comment},
+                ...notifications.newNotification, 
+            ]
+        }
+        if (snapshot.exists) {
+            await userNotificationRef.update(notifications); 
+        } else {
+            await userNotificationRef.set(notifications); 
+        }
+    }
     post = {
         ...post,
         comments: [...post.comments, {userName: currentUser, comment}]

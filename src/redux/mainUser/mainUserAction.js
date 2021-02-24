@@ -80,4 +80,13 @@ export const loadUserPost = (userPost) => ({
     payload: userPost
 })
 
+export const loadUserNotification = (notification) => ({
+    type: mainUserTypes.LOADING_USER_NOTIFICATION,
+    payload: notification
+})
+
+export const newNotificationSeen = () => ({
+    type: mainUserTypes.NEW_NOTIFICATION_SEEN
+})
+
 

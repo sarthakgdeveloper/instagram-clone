@@ -13,10 +13,10 @@ const HeaderPc = () => {
                 </div>
             </div>
             <div className='searchBox__Container'>
-                <div className="header__searchContainer">
+                {/* <div className="header__searchContainer">
                     <i className="fas fa-search header__searchIcon"></i>
                     <input type="text" placeholder='search' className='header__search'/>
-                </div>
+                </div> */}
             </div>
             <HeaderUserInfo />
         </div>

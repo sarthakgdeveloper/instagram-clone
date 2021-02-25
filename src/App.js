@@ -14,7 +14,8 @@ import { checkCurrentUser } from './redux/mainUser/mainUserAction';
 import User from './components/users/users';
 import {getPost} from './redux/posts/posts.action';
 import {loadUserNotification, newNotificationUnSeen} from './redux/mainUser/mainUserAction';
-import Notification from './components/Notification/Notification'
+import Notification from './components/Notification/Notification';
+import SearchUser from './components/seachUser/SearchUser';
 
 
 
@@ -46,6 +47,7 @@ function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotificatio
         }} />
         <Route path='/users' component={User}/>
         <Route path='/notification' component={Notification}/>
+        <Route path='/search' component={SearchUser}/>
       </Switch>
     </div>
   );

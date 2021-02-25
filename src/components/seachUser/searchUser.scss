@@ -1,0 +1,82 @@
+.searchUser__container{
+    height: 100vh;
+    width: 100%;
+    max-height: 100%;
+    background-color: #fafafa;
+
+    .searchUser{
+        width: 60%;
+        height: 100%;
+        margin: auto;
+        text-align: center;
+
+        .search__input{
+            position: relative;
+            padding: 5px;
+            margin: 10px;
+            background-color: #fff;
+            text-align: center;
+            outline: none;
+            border: 1px solid lightgray;
+            border-radius: 5px;
+        }
+
+        .search__result{
+            height: 90%;
+            width: 100%;
+
+            .searchUser__resultContainer{
+                display: flex;
+                height: 120px;
+                width: 60%;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid lightgray;
+                border-left: none;
+                border-right: none;
+                margin: auto;
+
+                .userProfileImage{
+                   height: 100px;
+                   width: 100px;
+                }
+
+                p{
+                    font-size: 22px;
+                    font-weight: lighter;
+                    letter-spacing: 1px;
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 600px){
+    .searchUser__container{
+         width: 100%;
+    
+        .searchUser{
+            width: 100%;
+    
+    
+            .search__result{
+    
+                .searchUser__resultContainer{
+                    width: 100%;
+                    height: 60px;
+
+    
+                    .userProfileImage{
+                       height: 50px;
+                       width: 50px;
+                    }
+
+                    p{
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+    }
+}

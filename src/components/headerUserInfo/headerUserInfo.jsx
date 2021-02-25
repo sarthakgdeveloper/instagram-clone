@@ -21,7 +21,7 @@ const HeaderUserInfo = ({currentUser, checkNewNotification, seenNewNotification}
         <div className="header__userInfo">
             <div>
                 <Link to='/' className='header__userProfile'><i className="fas fa-house-user"></i></Link> 
-                <Link to='/'><i className="far fa-comments"></i></Link>
+                <Link to='/search'><i className="fas fa-search header__searchIcon"></i></Link>
                 <Link to='/notification' className={`${notify?'notification':''}`} onClick={seenNewNotification}><i className="far fa-heart"></i></Link>
                 <Link to={`/users/${userName}`} className='header__userProfile'><i className="far fa-user"></i></Link>
             </div>

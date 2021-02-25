@@ -3,6 +3,7 @@ import 'firebase/firestore';
 import 'firebase/auth';
 import '@firebase/storage';
 
+
 const config = {
     apiKey: "AIzaSyAiUHNPU-xZX3WdZ2GPwRwTbS3tS8ql0Uo",
     authDomain: "instagram-clone-21c3c.firebaseapp.com",
@@ -182,13 +183,23 @@ export const incrementingLike = async (post, currentUser) => {
         
     } else{
         if(!(post.userName === currentUser)){
-            notifications = {
-                oldNotification: [...notifications.oldNotification],
-                newNotification: [
-                    {...newNotification},
-                    ...notifications.newNotification, 
-                ],
-                seen: false
+            if (Object.keys(notifications).length > 0) {
+                notifications = {
+                    ...notifications,
+                    newNotification: [
+                        {...newNotification},
+                        ...notifications.newNotification, 
+                    ],
+                    seen: false
+                }
+            } else {
+                notifications = {
+                    ...notifications,
+                    newNotification: [
+                        {...newNotification},
+                    ],
+                    seen: false
+                }
             }
         }
         post = {
@@ -210,14 +221,26 @@ export const gettingComment = async (post, comment, currentUser) => {
     if(!(post.userName === currentUser)) {
         const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
         const snapshot = await userNotificationRef.get();
+        const newNotification = {userName: currentUser,notification: `commented on your photo`,post, type: "comment",comment}
         let notifications = {...snapshot.data()}; 
-        notifications = {
-            oldNotification: [...notifications.oldNotification],
-            newNotification: [
-                {userName: currentUser,notification: `commented on your photo`,post, type: "comment",comment},
-                ...notifications.newNotification, 
-            ]
-        }
+        if (Object.keys(notifications).length > 0) {
+                notifications = {
+                    ...notifications,
+                    newNotification: [
+                        {...newNotification},
+                        ...notifications.newNotification, 
+                    ],
+                    seen: false
+                }
+            } else {
+                notifications = {
+                    ...notifications,
+                    newNotification: [
+                        {...newNotification},
+                    ],
+                    seen: false
+                }
+            }
         if (snapshot.exists) {
             await userNotificationRef.update(notifications); 
         } else {
@@ -232,8 +255,26 @@ export const gettingComment = async (post, comment, currentUser) => {
     return post;
 }
 
-export const onRemovingComment = (post, comment) => {
+export const onRemovingComment = async (post, comment) => {
     const postRef = firestore.doc(`userPosts/${post.uid}`);
+    if(!(post.userName === comment.userName)) {
+        const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
+        const snapshot = await userNotificationRef.get();
+        const newNotification = {userName: comment.userName,notification: `commented on your photo`,post, type: "comment",comment}
+        let notifications = {...snapshot.data()}; 
+        if (notifications.seen) {
+            const notificationIndex = notifications.oldNotification.indexOf(newNotification);
+            notifications.oldNotification.splice(notificationIndex, 1)
+        } else {
+            const notificationIndex = notifications.newNotification.indexOf(newNotification);
+            notifications.newNotification.splice(notificationIndex, 1);
+        }
+        if (snapshot.exists) {
+            await userNotificationRef.update(notifications); 
+        } else {
+            await userNotificationRef.set(notifications); 
+        }
+    }
     const {comments} = post;
     const indexOfComment = comments.indexOf(comment);
     comments.splice(indexOfComment, 1);

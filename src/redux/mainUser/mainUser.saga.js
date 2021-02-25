@@ -1,5 +1,5 @@
 import {takeLatest, put, all, call} from 'redux-saga/effects';
-import {auth, createUserProfileDocument, getCurrentUser, followNewUser, unfollowOldUser, getCurrentUserPost} from '../../Firebase/firebase.utils';
+import {auth, createUserProfileDocument, getCurrentUser, followNewUser, unfollowOldUser, getCurrentUserPost, updateNotification} from '../../Firebase/firebase.utils';
 import mainUserTypes from '../mainUser/mainUserTypes';
 import {signInSuccess, signUpfail, signUpTrue, changeInCurrentUser, loadUserPost} from './mainUserAction';
 
@@ -97,6 +97,10 @@ function* gettingUserPost({payload}) {
     yield put(loadUserPost(postObj))
 }
 
+function* updatingNotification({payload: {notification, currentUser}}) {
+    yield updateNotification(notification, currentUser);
+}
+
 function* onSignUpStart() {
     yield takeLatest(mainUserTypes.SIGN_UP_START, signUpStart)
 }
@@ -120,7 +124,10 @@ function* onUnFollowUser() {
 function* onGetUserPost() {
     yield takeLatest(mainUserTypes.GET_USER_POST, gettingUserPost)
 }
+function* onupdateNotification() {
+    yield takeLatest(mainUserTypes.UPDATE_NOTIFICATION, updatingNotification)
+}
 
 export function* mainUserSaga() {
-    yield all([call(onSignUpStart),call(onSignInStart), call(isUserAuthenticated), call(isUserInfoEntered), call(onFollowUser), call(onUnFollowUser), call(onGetUserPost)]);
+    yield all([call(onSignUpStart),call(onSignInStart), call(isUserAuthenticated), call(isUserInfoEntered), call(onFollowUser), call(onUnFollowUser), call(onGetUserPost), call(onupdateNotification)]);
 };

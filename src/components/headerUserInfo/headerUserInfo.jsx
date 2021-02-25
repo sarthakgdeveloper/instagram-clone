@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import {getCurrentUser, isThereNewNotification} from '../../redux/mainUser/mainUserSelector'
+import {getCurrentUser, isThereNewNotification} from '../../redux/mainUser/mainUserSelector';
+import {newNotificationSeen} from '../../redux/mainUser/mainUserAction';
 import './headerUserInfo.scss';
 
-const HeaderUserInfo = ({currentUser, checkNewNotification}) => {
+const HeaderUserInfo = ({currentUser, checkNewNotification, seenNewNotification}) => {
 
     const {userName} = currentUser ? currentUser : {userName: "unKnown"};
 
@@ -21,7 +22,7 @@ const HeaderUserInfo = ({currentUser, checkNewNotification}) => {
             <div>
                 <Link to='/' className='header__userProfile'><i className="fas fa-house-user"></i></Link> 
                 <Link to='/'><i className="far fa-comments"></i></Link>
-                <Link to='/notification' className={`${notify?'notification':''}`} onClick={() => doNotify(false)}><i className="far fa-heart"></i></Link>
+                <Link to='/notification' className={`${notify?'notification':''}`} onClick={seenNewNotification}><i className="far fa-heart"></i></Link>
                 <Link to={`/users/${userName}`} className='header__userProfile'><i className="far fa-user"></i></Link>
             </div>
         </div>
@@ -42,5 +43,9 @@ const mapStateToProps = createStructuredSelector({
     checkNewNotification: isThereNewNotification
 })
 
+const mapDispatchToProps = dispatch => ({
+    seenNewNotification: () => dispatch(newNotificationSeen())
+})
 
-export default connect(mapStateToProps)(HeaderUserInfo);
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderUserInfo);

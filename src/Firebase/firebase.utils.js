@@ -159,6 +159,9 @@ export const startFetchingPosts = async () => {
 export const incrementingLike = async (post, currentUser) => {
     const postRef = firestore.doc(`userPosts/${post.uid}`);
     const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
+    const snapshot = await userNotificationRef.get();
+    let notifications = {...snapshot.data()}; 
+    const newNotification = {userName: currentUser,notification: `liked your Photo`,post, type: 'like'}
     if (post.likes.includes(currentUser)) {
         const indexOfUser = post.likes.indexOf(currentUser);
         const {likes} = post;
@@ -166,30 +169,37 @@ export const incrementingLike = async (post, currentUser) => {
         post = {
             ...post,
             likes
+        };
+        if (post.userName !== currentUser) {
+            if (notifications.seen) {
+                const notificationIndex = notifications.oldNotification.indexOf(newNotification);
+                notifications.oldNotification.splice(notificationIndex, 1)
+            } else {
+                const notificationIndex = notifications.newNotification.indexOf(newNotification);
+                notifications.newNotification.splice(notificationIndex, 1);
+            }
         }
         
     } else{
         if(!(post.userName === currentUser)){
-            const userNotificationRef = firestore.doc(`notifications/${post.userName}`);
-            const snapshot = await userNotificationRef.get();
-            let notifications = {...snapshot.data()}; 
             notifications = {
                 oldNotification: [...notifications.oldNotification],
                 newNotification: [
-                    {userName: currentUser,notification: `liked your Photo`,post, type: 'like'},
+                    {...newNotification},
                     ...notifications.newNotification, 
-                ]
-            }
-            if (snapshot.exists) {
-                await userNotificationRef.update(notifications); 
-            } else {
-                await userNotificationRef.set(notifications); 
+                ],
+                seen: false
             }
         }
         post = {
             ...post,
             likes: [...post.likes, currentUser]
         }
+    }
+    if (snapshot.exists) {
+        await userNotificationRef.update(notifications); 
+    } else {
+        await userNotificationRef.set(notifications); 
     }
     await postRef.update(post)
     return post;
@@ -254,6 +264,18 @@ export const deletingPost = async (post, currentUser) => {
     await userEachPostRef.delete();
     await imageRef.delete();
     return null;
+}
+
+export const updateNotification = async (notification, currentUser) => {
+    const notificationRef = firestore.doc(`notifications/${currentUser}`);
+    const snapshot = await notificationRef.get();
+    const data = {...snapshot.data()};
+    const newData = {
+        newNotification: [],
+        oldNotification: [...notification, ...data.oldNotification],
+        seen: true
+    }
+    await notificationRef.update(newData);
 }
 
 firebase.initializeApp(config);

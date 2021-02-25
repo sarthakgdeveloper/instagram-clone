@@ -24,11 +24,10 @@ function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotificatio
   useEffect(() => {
     checkingCurrentUser();
     loadUserPost();
-    firestore.doc(`notifications/${currentUser.userName}`).onSnapshot(snapshot => {
+    firestore.doc(`notifications/${currentUser?.userName}`).onSnapshot(snapshot => {
       const notificationData = {...snapshot.data()};
-      if (notificationData?.newNotification?.length !== 0) {
-        newNotification();
-      }
+      notificationData && console.log(!!notificationData)
+      Object.keys(notificationData).length > 0 && notificationData.newNotification?.length > 0 && newNotification();
       getUserNotification({...snapshot.data()})
     })
   }, [checkingCurrentUser, loadUserPost, getUserNotification]);  

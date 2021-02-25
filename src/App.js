@@ -13,18 +13,22 @@ import { getCurrentUser } from './redux/mainUser/mainUserSelector';
 import { checkCurrentUser } from './redux/mainUser/mainUserAction';
 import User from './components/users/users';
 import {getPost} from './redux/posts/posts.action';
-import {loadUserNotification} from './redux/mainUser/mainUserAction';
+import {loadUserNotification, newNotificationUnSeen} from './redux/mainUser/mainUserAction';
 import Notification from './components/Notification/Notification'
 
 
 
 
 
-function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotification}) {
+function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotification, newNotification}) {
   useEffect(() => {
     checkingCurrentUser();
     loadUserPost();
     firestore.doc(`notifications/${currentUser.userName}`).onSnapshot(snapshot => {
+      const notificationData = {...snapshot.data()};
+      if (notificationData?.newNotification?.length !== 0) {
+        newNotification();
+      }
       getUserNotification({...snapshot.data()})
     })
   }, [checkingCurrentUser, loadUserPost, getUserNotification]);  
@@ -51,7 +55,8 @@ function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotificatio
 const mapDispatchToProps = dispatch => ({
   checkingCurrentUser: () => dispatch(checkCurrentUser()),
   loadUserPost: () => dispatch(getPost()),
-  getUserNotification: (Notification) => dispatch(loadUserNotification(Notification))
+  getUserNotification: (Notification) => dispatch(loadUserNotification(Notification)),
+  newNotification: () => dispatch(newNotificationUnSeen())
 })
 
 const mapStateToProps = createStructuredSelector({

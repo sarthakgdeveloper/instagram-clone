@@ -31,7 +31,9 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currentUser: JSON.parse(localStorage.getItem("currentUser")),
                 error: null,
-                isSignedUp: false
+                isSignedUp: false,
+                userPost: null,
+                notification: {},
             }
         case mainUserTypes.SIGN_UP_TRUE:
             return{
@@ -57,13 +59,17 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
         case mainUserTypes.LOADING_USER_NOTIFICATION:
             return {
                 ...state,
-                notification: {...action.payload},
-                isThereNewNotification: true
+                notification: {...action.payload}
             }
         case mainUserTypes.NEW_NOTIFICATION_SEEN:
             return {
                 ...state,
                 isThereNewNotification: false
+            }
+        case mainUserTypes.NEW_NOTIFICATION_UNSEEN:
+            return {
+                ...state,
+                isThereNewNotification: true
             }
         default:
             return{

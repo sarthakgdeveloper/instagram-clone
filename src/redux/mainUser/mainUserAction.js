@@ -89,6 +89,10 @@ export const newNotificationSeen = () => ({
     type: mainUserTypes.NEW_NOTIFICATION_SEEN
 })
 
+export const newNotificationUnSeen = () => ({
+    type: mainUserTypes.NEW_NOTIFICATION_UNSEEN
+})
+
 export const updateNotification = (notification, currentUser) => ({
     type: mainUserTypes.UPDATE_NOTIFICATION,
     payload: {notification, currentUser}

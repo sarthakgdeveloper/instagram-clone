@@ -10,7 +10,7 @@ function Notification({notification, updatingNotification, currentUser}) {
     const {newNotification, oldNotification} = notification;
     useEffect(() => {
         return () => {
-            newNotification && updatingNotification(newNotification, currentUser.userName)
+            newNotification?.length > 0 && updatingNotification(newNotification, currentUser.userName)
         }
     })
     return (

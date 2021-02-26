@@ -311,10 +311,20 @@ export const updateNotification = async (notification, currentUser) => {
     const notificationRef = firestore.doc(`notifications/${currentUser}`);
     const snapshot = await notificationRef.get();
     const data = {...snapshot.data()};
-    const newData = {
-        newNotification: [],
-        oldNotification: [...notification, ...data.oldNotification],
-        seen: true
+    console.log(notification)
+    let newData = {}
+    if (data.oldNotification.length > 0) {
+        newData = {
+            newNotification: [],
+            oldNotification: [...notification, ...data.oldNotification],
+            seen: true
+        }
+    } else {
+        newData = {
+            newNotification: [],
+            oldNotification: [...notification],
+            seen: true
+        }
     }
     await notificationRef.update(newData);
 }

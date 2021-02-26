@@ -1,5 +1,5 @@
 import {takeLatest, put, all, call} from 'redux-saga/effects';
-import {getUserDataFromUserName, incrementFollowerOfUser, decrementFollowerOfUser} from '../../Firebase/firebase.utils';
+import {getUserDataFromUserName, incrementFollowerOfUser, decrementFollowerOfUser, getCurrentUserPost} from '../../Firebase/firebase.utils';
 import userTypes from './userTypes';
 import {loadedProfile, userProfileScreenLoaded, changeInNewUser, noPageFound} from './userAction';
 
@@ -8,7 +8,6 @@ function* loadingProfile({payload: {username}}) {
     try {
         yield put(userProfileScreenLoaded())
         const {userDataRef, postObj} = yield getUserDataFromUserName(username);
-        console.log(userDataRef)
         if(!userDataRef) return yield put(noPageFound());
         const snapShot = yield userDataRef.get();
         const userData = {...snapShot.data()};
@@ -19,6 +18,15 @@ function* loadingProfile({payload: {username}}) {
     } catch (error) {
         console.log(error.message);
     }
+}
+
+function* loadingProfileBySearch({payload}) {
+    yield put(userProfileScreenLoaded())
+    const userPost = yield getCurrentUserPost(payload.userName);
+    yield put(loadedProfile({
+        userPost,
+        userData: payload
+    }))
 }
 
 function* addingFollower({payload: {userData, currentUserName}}) {
@@ -57,6 +65,10 @@ function* deletingFollower({payload: {userData, currentUserName}}) {
 function* onLoadProfile() {
     yield takeLatest(userTypes.LOAD_PROFILE, loadingProfile)
 }
+
+function* onLoadProfileBySearch() {
+    yield takeLatest(userTypes.LOAD_PROFILE_BY_SEARCH, loadingProfileBySearch)
+}
 function* onAddingFollower() {
     yield takeLatest(userTypes.ADD_FOLLOWER, addingFollower)
 }
@@ -65,5 +77,5 @@ function* onDeletingFollower() {
 }
 
 export function* userSaga() {
-    yield all([call(onLoadProfile), call(onAddingFollower), call(onDeletingFollower)])
+    yield all([call(onLoadProfile), call(onAddingFollower), call(onDeletingFollower), call(onLoadProfileBySearch)])
 }

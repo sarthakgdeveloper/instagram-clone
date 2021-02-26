@@ -3,13 +3,14 @@ import Avatar from '@material-ui/core/Avatar';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {incrementLike, getNewComment, removeComment} from '../../redux/posts/posts.action';
+import {profileLoadedByClick} from '../../redux/user/userAction';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
 import UserPostPopUp from '../userPostPopUp/userPostPopUp';
 
 
 import './post.scss';
 
-const Post = ({post, addLike, currentUser, addComment, deleteComment}) => {
+const Post = ({post, addLike, currentUser, addComment, deleteComment, loadProfileByClick}) => {
     const [newComment, getComment] = useState('');
     const [postPopUp, doPostPopUp] = useState(false);
 
@@ -39,7 +40,7 @@ const Post = ({post, addLike, currentUser, addComment, deleteComment}) => {
         <div className='post'>
             <div className='post__header'>
                 <Avatar className='post__avatar' alt={userName.toUpperCase()} src='/static/images/avatar/1.jpg'/>
-                <h3><Link to={`/users/${userName}`}>{userName}</Link></h3>
+                <h3 onClick={loadProfileByClick}><Link to={`/users/${userName}`}>{userName}</Link></h3>
             </div>
             <img src= {imageUrl} className='post__image' alt='Postimage'/>
             <div className="post__infoContainer">
@@ -83,6 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
     addLike: (post, currentUser, user) => dispatch(incrementLike(post, currentUser, user)),
     addComment: (post, comment, currentUser, user) => dispatch(getNewComment(post, comment, currentUser, user)),
     deleteComment: (post, comment, user) => dispatch(removeComment(post,comment, user)),
+    loadProfileByClick: () => dispatch(profileLoadedByClick())
 })
 
 const mapStateToProps = (state, user) => ({

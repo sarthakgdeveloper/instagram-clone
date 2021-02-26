@@ -1,17 +1,39 @@
 import React, {useState, useEffect} from 'react';
 import {firestore} from '../../Firebase/firebase.utils';
+import {loadProfileBySearch, profileLoadedBySearch} from '../../redux/user/userAction';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import './searchUser.scss'
 
-function SearchUser() {
+function SearchUser({loadProfile, loadProfileBySearch}) {
     const [searchContent, getSearchContent] = useState('');
-
+    const [searchResult, getSearchResult] = useState([]);
+    
+    const checkRef = firestore.collection('users');
     useEffect(() => {
-        const checkRef = firestore.collection('users');
-        const check = checkRef.where("userName", "<", searchContent).get().then(snapshot => {
-
-            console.log(snapshot)
-        })
+        if(searchContent.length === 0) {
+            getSearchResult([])
+        }
+        if(searchContent.length === 1) {
+            let userArr = []
+            checkRef.where('searchKey', '==', searchContent.toUpperCase()).limit(10).get().then(snapshot => {
+                snapshot.docs.map(user => {
+                    return userArr = [
+                        ...userArr,
+                        {...user.data()}
+                    ]
+                })
+                getSearchResult(userArr) 
+            })
+        }
+        if(searchResult && searchContent.length > 1){
+            let userArr = []
+            userArr = searchResult.filter(user => {
+                return user.userName.toUpperCase().includes(searchContent.toUpperCase())
+            })
+            getSearchResult(userArr);
+        }
     }, [searchContent]) 
 
     const handleChange = e => {
@@ -22,16 +44,28 @@ function SearchUser() {
             <div className="searchUser">
                 <input type="text" placeholder='Search' className='search__input' onChange={handleChange} value={searchContent}/>
                 <div className="search__result">
-                    <div className="searchUser__resultContainer">
-                        <div >
-                            <Avatar className='userProfileImage' alt='Sarthak' src='https://instagram.fdel1-4.fna.fbcdn.net/v/t51.2885-19/s320x320/123204445_671677500211604_6925751201039816816_n.jpg?_nc_ht=instagram.fdel1-4.fna.fbcdn.net&_nc_ohc=Q4z-PPXCWpUAX8W68Es&tp=1&oh=d902fd4db0b37f46eae4b04ebdc602d1&oe=603CE56F'/>
-                        </div>
-                        <p>username</p>
-                    </div>
+                    {
+                        searchResult && searchResult.map((user, index) => (
+                            <div className="searchUser__resultContainer" key={index}>
+                                <div >
+                                    <Avatar className='userProfileImage' alt='Sarthak' src={user.profileImg}/>
+                                </div>
+                                <p onClick={() => {
+                                    loadProfileBySearch();
+                                    loadProfile(user);
+                                }}><Link to={`users/${user.userName}`}>{user.userName}</Link></p>
+                            </div>
+                        ))
+                    }
                 </div>
             </div>
         </div>
     )
 }
 
-export default SearchUser
+const mapDispatchToProps = dispatch => ({
+    loadProfile: (profile) => dispatch(loadProfileBySearch(profile)),
+    loadProfileBySearch: () => dispatch(profileLoadedBySearch())
+})
+
+export default connect(null, mapDispatchToProps)(SearchUser);

@@ -16,6 +16,9 @@ export const getUserPost= createSelector([userState], (user) => {
 export const isScreenLoaded = createSelector([userState], (user) => {
     return user.userProfileScreenLoaded;
 })
+export const isProfileAskedBySearch = createSelector([userState], (user) => {
+    return user.profileAskedBySearch;
+})
 
 export const isFollowed = (username) => createSelector([getUserData], (user) => {
     return user ? user.follower.includes(username) ? true: false: user;

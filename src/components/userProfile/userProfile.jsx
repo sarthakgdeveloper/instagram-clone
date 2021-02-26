@@ -11,7 +11,7 @@ import {Link} from 'react-router-dom';
 import "./userProfile.scss";
 
 const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
-    
+    const {profileImg} = currentUser;
     useEffect(() => {
         gettingUserPost(currentUser.userName)
     }, [gettingUserPost, currentUser.userName])
@@ -46,7 +46,7 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
         <div className="userInfo__container">
             <div className="userInfo">
                 <div className="userProfileImage__container">
-                    <Avatar className='userProfileImage' alt='Sarthak' src='https://instagram.fdel1-4.fna.fbcdn.net/v/t51.2885-19/s320x320/123204445_671677500211604_6925751201039816816_n.jpg?_nc_ht=instagram.fdel1-4.fna.fbcdn.net&_nc_ohc=Q4z-PPXCWpUAX8W68Es&tp=1&oh=d902fd4db0b37f46eae4b04ebdc602d1&oe=603CE56F'/>
+                    <Avatar className='userProfileImage' alt='Sarthak' src={profileImg}/>
                 </div>
             </div>
             <div className="userInfo">

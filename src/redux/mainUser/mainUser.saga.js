@@ -7,7 +7,7 @@ import {signInSuccess, signUpfail, signUpTrue, changeInCurrentUser, loadUserPost
 
 function* getSnapshotFromUser(user) {
     const AdditionalData = {
-        profileImg: false,
+        profileImg: 'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg',
         follower: [],
         following: [],
         likedContent: [],

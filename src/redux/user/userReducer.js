@@ -7,7 +7,8 @@ const INITIAL_STATE = {
     userProfileScreenLoaded: false,
     userData: null,
     userPost: [],
-    pageNotFound: false
+    pageNotFound: false,
+    profileAskedBySearch: false
 };
 
 
@@ -42,6 +43,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 userPost: updatePostInObj(action.payload.newPost, action.payload.oldPost, state.userPost)
+            }
+        case userTypes.PROFILE_LOADED_BY_SEARCH:
+            return {
+                ...state,
+                profileAskedBySearch: true
+            }
+        case userTypes.PROFILE_LOADED_BY_CLICK:
+            return {
+                ...state,
+                profileAskedBySearch: false
             }
 
         default:

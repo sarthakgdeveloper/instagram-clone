@@ -25,6 +25,19 @@ export const loadProfile = (username) => ({
     payload: username
 })
 
+export const loadProfileBySearch = (userData) => ({
+    type: userTypes.LOAD_PROFILE_BY_SEARCH,
+    payload: userData
+})
+
+export const profileLoadedBySearch = () => ({
+    type: userTypes.PROFILE_LOADED_BY_SEARCH,
+})
+
+export const profileLoadedByClick = () => ({
+    type: userTypes.PROFILE_LOADED_BY_CLICK,
+})
+
 export const loadedProfile = ({userData, userPost}) => ({
     type: userTypes.LOADED_PROFILE,
     payload: {userData, userPost}

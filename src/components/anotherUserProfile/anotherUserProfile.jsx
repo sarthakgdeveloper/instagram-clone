@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {loadProfile} from '../../redux/user/userAction';
 import {followingNewUser, unFollowingOldUser} from '../../redux/mainUser/mainUserAction';
 import {addNewFollower, deleteOldFollower} from '../../redux/user/userAction';
-import {getUserData, isScreenLoaded, isPageFound, getUserPost} from '../../redux/user/userSelector';
+import {getUserData, isScreenLoaded, isPageFound, getUserPost, isProfileAskedBySearch} from '../../redux/user/userSelector';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
 import {createStructuredSelector} from 'reselect';
 import UserPostCollection from '../userPostCollection/userPostCollection';
@@ -14,14 +14,13 @@ import Loader from '../loader/loader';
 import './anotherUserProfile.scss';
 
 
-const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingUser, unfollowingUser, currentUser, addingFollower, deletingFollower, pageFound, post}) => {
-    console.log(currentUser);
+const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingUser, unfollowingUser, currentUser, addingFollower, deletingFollower, pageFound, post, ProfileAskedBySearch}) => {
     const [followCheck, followChecker] = useState(currentUser?currentUser.following.includes(match.params.username)? 'UnFollow':'Follow':'Follow');
 
     useEffect(() => {
         const username = match.params.username;
-        getProfile({username});
-    }, [getProfile, match.params.username])
+        !ProfileAskedBySearch && getProfile({username});
+    }, [getProfile, match.params.username, ProfileAskedBySearch])
     
     const {userName, Bio, profileImg, follower, following} = userData ? userData : {
         userName: match.params.username, 
@@ -59,7 +58,7 @@ const AnotherUserProfile = ({match, getProfile, userData, screenLoad, followingU
             <div className="userInfo__container">
                 <div className="userInfo">
                     <div className="userProfileImage__container">
-                        <Avatar className='userProfileImage' alt='Sarthak' src={profileImg ? profileImg : 'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'}/>
+                        <Avatar className='userProfileImage' alt='Sarthak' src={profileImg}/>
                     </div>
                 </div>
                 <div className="userInfo">
@@ -126,7 +125,8 @@ const mapStateToProps = createStructuredSelector({
     screenLoad: isScreenLoaded,
     currentUser: getCurrentUser,
     pageFound: isPageFound,
-    post: getUserPost
+    post: getUserPost,
+    ProfileAskedBySearch: isProfileAskedBySearch
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnotherUserProfile);

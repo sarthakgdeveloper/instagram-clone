@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
+import {isProfileAskedBySearch} from '../../redux/user/userSelector';
 import {Route,Switch} from 'react-router-dom';
 import UserProfileRoute from '../userProfileRoute/userProfileRoute';
 import AnotherUserProfile from '../anotherUserProfile/anotherUserProfile';

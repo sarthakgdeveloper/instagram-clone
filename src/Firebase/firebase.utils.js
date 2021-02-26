@@ -313,7 +313,7 @@ export const updateNotification = async (notification, currentUser) => {
     const data = {...snapshot.data()};
     console.log(notification)
     let newData = {}
-    if (data.oldNotification.length > 0) {
+    if (data.oldNotification?.length > 0) {
         newData = {
             newNotification: [],
             oldNotification: [...notification, ...data.oldNotification],

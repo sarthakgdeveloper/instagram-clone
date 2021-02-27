@@ -131,6 +131,7 @@ export const getCurrentUserPost = async (username) => {
 }
 
 export const startFetchingPosts = async (currentUserFollowing) => {
+    if (currentUserFollowing.length === 0) return null;
     let obj = []
     const postRef = firestore.collection('userPosts').orderBy('createdAt', 'desc').where('userName', 'in', currentUserFollowing)
     const snapshot = await postRef.get();

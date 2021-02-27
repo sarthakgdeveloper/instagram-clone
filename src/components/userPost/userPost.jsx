@@ -23,7 +23,7 @@ const UserPostPage = ({userPostState}) => {
 
 const UserPost = ({match, currentUser, userPostState}) => {
     const userPostArr = Object.values(userPostState);
-    return (
+    return currentUser.following.length !== 0 ? (
         <div>
             <Route exact path={`${match.path}`} render={() => {
                 return (
@@ -31,6 +31,10 @@ const UserPost = ({match, currentUser, userPostState}) => {
                 )
             }}/>
             {!currentUser && <Redirect to='/signin'/>}
+        </div>
+    ): (
+        <div className='NotFollowed__anyUser'>
+            <h3>follow Other Users to See Their Posts!!</h3>
         </div>
     )
 };

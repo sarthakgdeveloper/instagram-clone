@@ -10,3 +10,4 @@ export const loadCurrentUserNotification = createSelector([mainUserState], state
 export const isThereNewNotification = createSelector([mainUserState], state => state.isThereNewNotification);
 
 export const getIsSignedUp = createSelector([mainUserState], state => state.isSignedUp);
+export const getIsSignedIn = createSelector([mainUserState], state => state.isSignedIn);

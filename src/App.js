@@ -9,10 +9,9 @@ import {firestore, auth} from './Firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import Header from './components/header/header';
-import { getCurrentUser } from './redux/mainUser/mainUserSelector';
+import { getCurrentUser, getIsSignedIn } from './redux/mainUser/mainUserSelector';
 import { checkCurrentUser, signOut } from './redux/mainUser/mainUserAction';
 import User from './components/users/users';
-import {getPost} from './redux/posts/posts.action';
 import {loadUserNotification, newNotificationUnSeen} from './redux/mainUser/mainUserAction';
 import Notification from './components/Notification/Notification';
 import SearchUser from './components/seachUser/SearchUser';
@@ -21,16 +20,15 @@ import SearchUser from './components/seachUser/SearchUser';
 
 
 
-function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotification, newNotification, signingOut}) {
+function App({currentUser, checkingCurrentUser, getUserNotification, newNotification, signingOut, isSignedIn}) {
   useEffect(() => {
     checkingCurrentUser();
-    currentUser && loadUserPost(currentUser.following);
     currentUser && firestore.doc(`notifications/${currentUser.userName}`).onSnapshot(snapshot => {
       const notificationData = {...snapshot.data()};
       Object.keys(notificationData).length > 0 && notificationData.newNotification?.length > 0 && newNotification();
       getUserNotification({...snapshot.data()})
     })
-  }, [checkingCurrentUser, loadUserPost, getUserNotification]);  
+  }, [getUserNotification, isSignedIn]);  
 
 
   return (
@@ -58,7 +56,6 @@ function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotificatio
 
 const mapDispatchToProps = dispatch => ({
   checkingCurrentUser: () => dispatch(checkCurrentUser()),
-  loadUserPost: (currentUserFollowing) => dispatch(getPost(currentUserFollowing)),
   getUserNotification: (Notification) => dispatch(loadUserNotification(Notification)),
   newNotification: () => dispatch(newNotificationUnSeen()),
   signingOut: () => dispatch(signOut())
@@ -66,6 +63,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = createStructuredSelector({
   currentUser: getCurrentUser,
+  isSignedIn: getIsSignedIn
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

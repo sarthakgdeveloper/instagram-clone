@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Post from '../post/post';
 import {Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import { getCurrentUser } from '../../redux/mainUser/mainUserSelector';
 import { postState } from '../../redux/posts/posts.selector';
 import {createStructuredSelector} from 'reselect';
+import {getPost} from '../../redux/posts/posts.action';
 
 
 
@@ -21,7 +22,10 @@ const UserPostPage = ({userPostState}) => {
     )
 }
 
-const UserPost = ({match, currentUser, userPostState}) => {
+const UserPost = ({match, currentUser, userPostState, loadUserPost}) => {
+    useEffect(() => {
+        currentUser && loadUserPost(currentUser.following)
+    }, [currentUser, loadUserPost])
     const userPostArr = Object.values(userPostState);
     return currentUser.following.length !== 0 ? (
         <div>
@@ -44,5 +48,9 @@ const mapStateToProps = createStructuredSelector({
     userPostState: postState
 })
 
+const mapDispatchToProps = dispatch => ({
+    loadUserPost: (currentUserFollowing) => dispatch(getPost(currentUserFollowing)),
+})
 
-export default connect(mapStateToProps)(UserPost);
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPost);

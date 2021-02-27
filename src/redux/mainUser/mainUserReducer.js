@@ -8,6 +8,7 @@ const INITIAL_STATE = {
     currentUser,
     error: null,
     isSignedUp: false,
+    isSignedIn: false,
     userPost: null,
     notification: {},
     isThereNewNotification: false
@@ -23,7 +24,7 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 currentUser: JSON.parse(localStorage.getItem("currentUser")),
                 error: null,
-                isSignedUp: false,
+                isSignedIn: true
             }
         case mainUserTypes.SIGN_OUT:
             localStorage.setItem("currentUser", JSON.stringify(null))
@@ -32,6 +33,7 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
                 currentUser: JSON.parse(localStorage.getItem("currentUser")),
                 error: null,
                 isSignedUp: false,
+                isSignedIn: false,
                 userPost: null,
                 notification: {},
             }

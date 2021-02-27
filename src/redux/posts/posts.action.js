@@ -1,8 +1,9 @@
 
 import postTypes from './posts.types';
 
-export const getPost = () => ({
-    type: postTypes.GET_POSTS
+export const getPost = (currentUserFollowing) => ({
+    type: postTypes.GET_POSTS,
+    payload: currentUserFollowing
 })
 
 

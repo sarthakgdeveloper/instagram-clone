@@ -7,8 +7,8 @@ import postTypes from './posts.types';
 
 
 
-function* fetchPosts() {
-    const posts = yield startFetchingPosts()
+function* fetchPosts({payload}) {
+    const posts = yield startFetchingPosts(payload)
     yield put(postLoaded(posts))
 }
 

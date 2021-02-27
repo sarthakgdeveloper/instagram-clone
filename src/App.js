@@ -24,8 +24,8 @@ import SearchUser from './components/seachUser/SearchUser';
 function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotification, newNotification, signingOut}) {
   useEffect(() => {
     checkingCurrentUser();
-    loadUserPost();
-    firestore.doc(`notifications/${currentUser?.userName}`).onSnapshot(snapshot => {
+    currentUser && loadUserPost(currentUser.following);
+    currentUser && firestore.doc(`notifications/${currentUser.userName}`).onSnapshot(snapshot => {
       const notificationData = {...snapshot.data()};
       Object.keys(notificationData).length > 0 && notificationData.newNotification?.length > 0 && newNotification();
       getUserNotification({...snapshot.data()})
@@ -58,7 +58,7 @@ function App({currentUser, checkingCurrentUser, loadUserPost, getUserNotificatio
 
 const mapDispatchToProps = dispatch => ({
   checkingCurrentUser: () => dispatch(checkCurrentUser()),
-  loadUserPost: () => dispatch(getPost()),
+  loadUserPost: (currentUserFollowing) => dispatch(getPost(currentUserFollowing)),
   getUserNotification: (Notification) => dispatch(loadUserNotification(Notification)),
   newNotification: () => dispatch(newNotificationUnSeen()),
   signingOut: () => dispatch(signOut())

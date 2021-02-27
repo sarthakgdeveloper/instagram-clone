@@ -130,20 +130,17 @@ export const getCurrentUserPost = async (username) => {
     return postObj;
 }
 
-export const startFetchingPosts = async () => {
-    let obj = {}
-    const postRef = firestore.collection(`userPosts`).orderBy('createdAt', 'desc');
-    const postSnapshot = await postRef.get();
-    postSnapshot.docs.map((post, indexOfPost) => {
-        const postObj = {
-            ...post.data()
-        }
-        return obj = {
+export const startFetchingPosts = async (currentUserFollowing) => {
+    let obj = []
+    const postRef = firestore.collection('userPosts').orderBy('createdAt', 'desc').where('userName', 'in', currentUserFollowing)
+    const snapshot = await postRef.get();
+    snapshot.docs.forEach(post => {
+        const postData = {...post.data()}
+
+        obj = [
             ...obj,
-            [`${postObj.userName}_${indexOfPost+1}`]:{
-                ...postObj
-            }
-        }
+            {...postData}
+        ]
     })
     return obj
 }

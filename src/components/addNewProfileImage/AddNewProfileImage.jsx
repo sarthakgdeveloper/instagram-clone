@@ -7,14 +7,14 @@ import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
 import {Redirect} from 'react-router-dom';
-import {changeInCurrentUser} from '../../redux/mainUser/mainUserAction';
+import {updateUserProfileImage} from '../../redux/mainUser/mainUserAction';
 import Button from '@material-ui/core/Button';
 import Cropper from 'react-easy-crop';
 import {getCroppedImg} from '../addNewPost/functionsTCrop';
 
 
 
-const AddNewProfileImage = ({currentUser}) => {
+const AddNewProfileImage = ({currentUser, updateNewProfileImage}) => {
     const {id} = currentUser;
     const inputRef = React.useRef();
 
@@ -99,6 +99,7 @@ const AddNewProfileImage = ({currentUser}) => {
                             await userRef.set({
                             ...updateUserData
                         })}
+                        updateNewProfileImage(updateUserData)
                       }
 
                       checking();
@@ -109,7 +110,7 @@ const AddNewProfileImage = ({currentUser}) => {
             }
             )
     }
-    return uploaded ? <Redirect to='/'/> : (
+    return uploaded ? <Redirect to={`/users/${currentUser.userName}`}/> : (
         <div className='newPost__Container'>
                 <div className="crop-container">
                     {croppedImage && !image ? (
@@ -141,7 +142,7 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchTProps = dispatch => ({
-    changedCurrentUser: (updatedUser) => dispatch(changeInCurrentUser(updatedUser)),
+    updateNewProfileImage: updatedUser => dispatch(updateUserProfileImage(updatedUser))
 })
 
 export default connect(mapStateToProps, mapDispatchTProps)(AddNewProfileImage);

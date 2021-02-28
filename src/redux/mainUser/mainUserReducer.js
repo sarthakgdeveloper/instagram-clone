@@ -73,6 +73,11 @@ const mainUserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isThereNewNotification: true
             }
+        case mainUserTypes.NEW_PROFLE_IMAGE:
+            return {
+                ...state,
+                currentUser:{ ...action.payload}
+            }
         default:
             return{
                 ...state

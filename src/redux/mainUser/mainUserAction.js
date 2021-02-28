@@ -98,4 +98,9 @@ export const updateNotification = (notification, currentUser) => ({
     payload: {notification, currentUser}
 })
 
+export const updateUserProfileImage = (updatedUser) => ({
+    type: mainUserTypes.NEW_PROFLE_IMAGE,
+    payload: updatedUser
+})
+
 

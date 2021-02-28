@@ -73,6 +73,7 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
         </div>
         <div className="userInfo__container">
             <Link to={`${userName}/newpost`}>Add New Post?</Link>
+            <Link to={`${userName}/newprofileimage`}>Add New Profile Image?</Link>
         </div>
         <div className="userInfo__container">
             <div className='userContent__Container'>

@@ -68,7 +68,7 @@
 .post__image{
     width: 100%;
     object-fit: contain;
-    touch-action: none;
+    touch-action: manipulation;
 }
 
 .post__infoContainer{

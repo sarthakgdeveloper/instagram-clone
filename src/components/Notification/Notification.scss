@@ -8,28 +8,52 @@
         border-bottom: 1px solid lightgray;
 
         .eachNotification{
-            width: 92vw;
+            width: 90vw;
             display: flex;
-            height: 60px;
+            height: 70px;
             align-items: center;
             position: relative;
             word-wrap: break-word;
+            margin: 0px auto;
+            padding: 20px 0 ;
+
+            &:last-child{
+                padding: 20px 0 50px 0px;
+            }
 
             .eachNotification__content{
-                padding: 0 30px;
+                padding: 0 40px 0 0;
                 display: flex;
                 height: 100%;
                 align-items: center;
                 width: 100%;
+
+                .eachNotification__writtenContent{
+                    display: flex;
+                    align-items: center;
+                    width: 90%;
+                    height: 100%;
+                }
+
+                .eachNotification__postContent{
+                    width: 10%;
+                    height: 100%;
+
+                    img{
+                        height: inherit;
+                        width: 70px;
+                    }
+                }
+
             }
 
-            .eachNotification__image{
-                position: absolute;
-                right: 0;
-                padding-right: 10px;
-                width: 50px;
-                height: 50px;
-            }
+            // .eachNotification__image{
+            //     position: absolute;
+            //     right: 0;
+            //     padding-right: 10px;
+            //     width: 50px;
+            //     height: 50px;
+            // }
         }
     }
 }

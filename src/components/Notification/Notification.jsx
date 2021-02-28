@@ -20,7 +20,14 @@ function Notification({notification, updatingNotification, currentUser}) {
                 {
                     newNotification ? newNotification.map((obj, index) => (
                         <div className='eachNotification' key={index}>
-                            <span className='eachNotification__content'><p>{`${obj.userName} ${obj.notification}`}</p><img src={obj.post.imageUrl} className='eachNotification__image'/></span>
+                            <div className='eachNotification__content'>
+                                <div className="eachNotification__writtenContent">
+                                    <p>{`${obj.userName} ${obj.notification}`}</p>
+                                </div>
+                                <div className='eachNotification__postContent'>
+                                    <img src={obj.post.imageUrl} className='eachNotification__image'/>
+                                </div>
+                            </div>
                         </div>
                     )):(
                         <div className="eachNotification">
@@ -32,11 +39,20 @@ function Notification({notification, updatingNotification, currentUser}) {
             <div className="notification old__notification">
                 <h4>Old Notifications</h4>
                 {
-                    oldNotification?.map((obj, index) => (
+                    oldNotification?.map((obj, index) => {
+                        console.log(oldNotification.length)
+                        return (
                         <div className='eachNotification' key={index}>
-                            <span className='eachNotification__content'>{`${obj?.userName} ${obj?.notification}`}<img src={obj?.post.imageUrl} className='eachNotification__image'/></span>
+                            <div className='eachNotification__content'>
+                                <div className="eachNotification__writtenContent">
+                                    <p>{`${obj.userName} ${obj.notification}`}</p>
+                                </div>
+                                <div className='eachNotification__postContent'>
+                                    <img src={obj.post.imageUrl} className='eachNotification__image'/>
+                                </div>
+                            </div>
                         </div>
-                    ))
+                    )})
                 }
             </div>
         </div>

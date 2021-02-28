@@ -20,7 +20,7 @@ function Notification({notification, updatingNotification, currentUser}) {
                 {
                     newNotification ? newNotification.map((obj, index) => (
                         <div className='eachNotification' key={index}>
-                            <span className='eachNotification__content'>{`${obj.userName} ${obj.notification}`}<img src={obj.post.imageUrl} className='eachNotification__image'/></span>
+                            <span className='eachNotification__content'><p>{`${obj.userName} ${obj.notification}`}</p><img src={obj.post.imageUrl} className='eachNotification__image'/></span>
                         </div>
                     )):(
                         <div className="eachNotification">

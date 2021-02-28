@@ -8,17 +8,19 @@
         border-bottom: 1px solid lightgray;
 
         .eachNotification{
-            width: 100%;
+            width: 92vw;
             display: flex;
             height: 60px;
             align-items: center;
             position: relative;
+            word-wrap: break-word;
 
             .eachNotification__content{
                 padding: 0 30px;
                 display: flex;
                 height: 100%;
                 align-items: center;
+                width: 100%;
             }
 
             .eachNotification__image{

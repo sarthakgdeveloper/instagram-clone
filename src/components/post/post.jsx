@@ -12,6 +12,7 @@ import './post.scss';
 
 const Post = ({post, addLike, currentUser, addComment, deleteComment, loadProfileByClick}) => {
     const [newComment, getComment] = useState('');
+    const [postLiked, isPostLiked] = useState(false);
     const [postPopUp, doPostPopUp] = useState(false);
 
     const handlePopUpShow = () => {
@@ -42,11 +43,20 @@ const Post = ({post, addLike, currentUser, addComment, deleteComment, loadProfil
                 <Avatar className='post__avatar' alt={userName.toUpperCase()} src='/static/images/avatar/1.jpg'/>
                 <h3 onClick={loadProfileByClick}><Link to={`/users/${userName}`}>{userName}</Link></h3>
             </div>
-            <img src= {imageUrl} className='post__image' alt='Postimage'/>
+            <div className='post__imageContainer'>
+                <img src= {imageUrl} className='post__image' alt='Postimage' onDoubleClick={() => {
+                    addLike(post,currentUser.userName, user)
+                    likes.includes(currentUser.userName)?isPostLiked(false):isPostLiked(true);
+                }}/>
+                <span>
+                    <img src="http://clipart-library.com/images/rcLxGBBni.png" className={`like__animation ${postLiked ? 'onPost__liked':null}`}/> 
+                </span>
+            </div>
             <div className="post__infoContainer">
                 <div className="post__info">
                     <span onClick={() => {
-                        addLike(post, currentUser.userName,user)
+                        addLike(post, currentUser.userName,user);
+                        likes.includes(currentUser.userName)?isPostLiked(false):isPostLiked(true);
                     }}><i className={`far fa-heart ${likes.includes(currentUser.userName)?'liked':null}`}></i></span>
                     <span onClick={handlePopUpShow}><i className="far fa-comment"></i></span>
                     <span><i className="fas fa-share"></i></span>

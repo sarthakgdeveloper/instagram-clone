@@ -1,23 +1,23 @@
+
+import '../addNewPost/addNewPost.scss';
+
 import React, {useState, useCallback} from 'react';
-import firebase from 'firebase';
 import {fireStorage, firestore} from '../../Firebase/firebase.utils';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
 import {Redirect} from 'react-router-dom';
 import {changeInCurrentUser} from '../../redux/mainUser/mainUserAction';
-import {addNewPost} from '../../redux/posts/posts.action';
 import Button from '@material-ui/core/Button';
 import Cropper from 'react-easy-crop';
-import {getCroppedImg} from './functionsTCrop';
+import {getCroppedImg} from '../addNewPost/functionsTCrop';
 
-import './addNewPost.scss';
 
-const AddNewPost = ({currentUser, uploadPost}) => {
-    const {userName} = currentUser;
+
+const AddNewProfileImage = ({currentUser}) => {
+    const {id} = currentUser;
     const inputRef = React.useRef();
-    
-    const [caption, setCaption] = useState('');
+
     const [oldImage, setOldImage] = useState(null);
     const [image, setImage] = useState(null);
     const [crop, setCrop] = useState({x: 0, y: 0});
@@ -63,7 +63,7 @@ const AddNewPost = ({currentUser, uploadPost}) => {
 
 
     const handleUpload = (e) => {
-        const uploadTask = fireStorage.ref(`images/${blob.name}`).put(blob);
+        const uploadTask = fireStorage.ref(`profileImages/${blob.name}`).put(blob);
         uploadTask.on(
             'state_changed',
             (snapshot) => {
@@ -78,66 +78,45 @@ const AddNewPost = ({currentUser, uploadPost}) => {
             },
             () => {
                 fireStorage
-                  .ref("images")
+                  .ref("profileImages")
                   .child(blob.name)
                   .getDownloadURL()
                   .then(url => {
                       const checking = async () => {
-                        const userPostRef = firestore.doc(`post/${userName}`);
-                        const userEachPostRef = firestore.collection(`userPosts`).doc();
-                        const snapshot = await userPostRef.get();
-                        const userPostData = {...snapshot.data()};
-                        const newPost = {
-                            caption,
-                            imageUrl: url,
-                            imageName: blob.name,
-                            likes: [],
-                            comments: [],
-                            userName,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            uid: userEachPostRef.id,
+                        const userRef = firestore.doc(`users/${id}`);
+                        const snapshot = await userRef.get();
+                        const userData = {...snapshot.data()};
+                        const updateUserData = {
+                            ...userData,
+                            profileImg: url
                         }
-                        await userEachPostRef.set({
-                            ...newPost
-                        })
 
                         if(snapshot.exists) {
-                            await userPostRef.update({
-                            posts: [
-                                ...userPostData.posts,
-                                userEachPostRef.id
-                            ],
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            await userRef.update({
+                            ...updateUserData
                         })
                         } else {
-                        await userPostRef.set({
-                            posts: [
-                                userEachPostRef.id
-                            ],
-                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            await userRef.set({
+                            ...updateUserData
                         })}
-                        uploadPost(newPost);
                       }
 
                       checking();
-                      alert("uploaded")
+                      alert("Profile Image Uploaded")
                       checkUploaded(true);
                 })
 
             }
             )
     }
-
-
-
     return uploaded ? <Redirect to='/'/> : (
         <div className='newPost__Container'>
                 <div className="crop-container">
                     {croppedImage && !image ? (
-                        <img src={croppedImage} alt="" className='postImage__cropped'/>
-                    ): (
-                        <Cropper image={image} crop={crop} aspect={4/4} zoom={zoom} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete}/>
-                    )}
+                        <img src={croppedImage} alt="" className='profileImage__cropped'/>
+                        ): (
+                            <Cropper image={image} crop={crop} aspect={4/4} zoom={zoom} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={onCropComplete} cropShape='round'/>
+                        )}
                 </div>
                 <div className="crop-btn">
                     <Button variant='contained' onClick={handlePopUp} className='choose_btn'>Choose</Button>
@@ -145,7 +124,6 @@ const AddNewPost = ({currentUser, uploadPost}) => {
                 </div>
                 <div className='post_info'>
                     <input type="file" id="img" name="img" accept="image/*" onChange={handleChange} className='newPost__Image' ref={inputRef} hidden/>
-                    <input type="text" placeholder='Enter A Caption...' value={caption} onChange={e => setCaption(e.target.value)}/>
                     <div id="myProgress">
                         <div id="myBar" style={{width: `${progress}%`}}></div>
                     </div>
@@ -157,13 +135,13 @@ const AddNewPost = ({currentUser, uploadPost}) => {
     )
 }
 
+
 const mapStateToProps = createStructuredSelector({
     currentUser: getCurrentUser,
 })
 
 const mapDispatchTProps = dispatch => ({
     changedCurrentUser: (updatedUser) => dispatch(changeInCurrentUser(updatedUser)),
-    uploadPost: (post) => dispatch(addNewPost(post))
 })
 
-export default connect(mapStateToProps, mapDispatchTProps)(AddNewPost);
+export default connect(mapStateToProps, mapDispatchTProps)(AddNewProfileImage);

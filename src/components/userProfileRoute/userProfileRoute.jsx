@@ -2,6 +2,7 @@ import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import UserProfile from '../userProfile/userProfile';
 import AddNewPost from '../addNewPost/addNewPost';
+import AddNewProfileImage from '../addNewProfileImage/AddNewProfileImage';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
@@ -15,6 +16,7 @@ const UserProfileRoute = ({match, currentUser}) => {
                     return !currentUser?<Redirect to='/signin'/>:<UserProfile />
                 }}/>
             <Route path={`${match.path}/newpost`} component={AddNewPost}/>
+            <Route path={`${match.path}/newprofileimage`} component={AddNewProfileImage}/>
         </Switch>
     </div>
 )};

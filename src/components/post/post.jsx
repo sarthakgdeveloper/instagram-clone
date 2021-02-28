@@ -49,7 +49,7 @@ const Post = ({post, addLike, currentUser, addComment, deleteComment, loadProfil
                     likes.includes(currentUser.userName)?isPostLiked(false):isPostLiked(true);
                 }}/>
                 <span>
-                    <img src="http://clipart-library.com/images/rcLxGBBni.png" className={`like__animation ${postLiked ? 'onPost__liked':null}`}/> 
+                    <i className={`fa fa-heart like__animation ${postLiked ? 'onPost__liked':null}`}></i> 
                 </span>
             </div>
             <div className="post__infoContainer">
@@ -57,7 +57,7 @@ const Post = ({post, addLike, currentUser, addComment, deleteComment, loadProfil
                     <span onClick={() => {
                         addLike(post, currentUser.userName,user);
                         likes.includes(currentUser.userName)?isPostLiked(false):isPostLiked(true);
-                    }}><i className={`far fa-heart ${likes.includes(currentUser.userName)?'liked':null}`}></i></span>
+                    }}><i className={`fa fa-heart ${likes.includes(currentUser.userName)?'liked':null}`}></i></span>
                     <span onClick={handlePopUpShow}><i className="far fa-comment"></i></span>
                     <span><i className="fas fa-share"></i></span>
                 </div>

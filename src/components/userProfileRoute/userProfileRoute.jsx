@@ -6,6 +6,7 @@ import AddNewProfileImage from '../addNewProfileImage/AddNewProfileImage';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 import {getCurrentUser} from '../../redux/mainUser/mainUserSelector';
+import ShowFollow from '../showFollow/ShowFollow'
 
 
 const UserProfileRoute = ({match, currentUser}) => {
@@ -17,6 +18,7 @@ const UserProfileRoute = ({match, currentUser}) => {
                 }}/>
             <Route path={`${match.path}/newpost`} component={AddNewPost}/>
             <Route path={`${match.path}/newprofileimage`} component={AddNewProfileImage}/>
+            <Route path={`${match.path}/:follow`} component={ShowFollow} />
         </Switch>
     </div>
 )};

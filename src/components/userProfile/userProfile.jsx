@@ -63,8 +63,8 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
                 </div>
                 <div className="userEngagement">
                     <div className="user__post"><p>{post ? Object.keys(post).length : 0} Post</p></div>
-                    <div className="user__follower"><p>{follower.length} Followers</p></div>
-                    <div className="user__following"><p>{following.length} Following</p></div>
+                    <div className="user__follower" ><Link to={`/users/${userName}/followers`} >{follower.length} Followers</Link></div>
+                    <div className="user__following"><Link to={`/users/${userName}/followings`}>{following.length} Following</Link></div>
                 </div>
                 <div className="userBio">
                     <p>{Bio}</p>
@@ -72,8 +72,8 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
             </div>
         </div>
         <div className="userInfo__container">
-            <Link to={`${userName}/newpost`}>Add New Post?</Link>
-            <Link to={`${userName}/newprofileimage`}>Add New Profile Image?</Link>
+            <Link to={`/users/${userName}/newpost`}>Add New Post?</Link>
+            <Link to={`/users/${userName}/newprofileimage`}>Add New Profile Image?</Link>
         </div>
         <div className="userInfo__container">
             <div className='userContent__Container'>

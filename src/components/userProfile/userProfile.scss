@@ -74,6 +74,11 @@
                 margin-right: auto;
                 display: flex;
                 justify-content: space-between;
+
+                a{
+                    text-decoration: none;
+                    cursor: pointer;
+                }
             }
             
             .userBio{

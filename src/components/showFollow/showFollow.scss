@@ -1,0 +1,26 @@
+.showFollow__container{
+    width: 60%;
+    min-height: 90vh;
+    height: 100%;
+    margin: auto;
+
+    .eachFollow__container{
+        width: 100%;
+        text-align: center;
+
+        .showFollow{
+            padding: 10px;
+            
+            a{
+                max-width: 60%;
+                width: auto;
+                margin: auto;
+                font-size: 22px;
+                font-weight: lighter;
+                cursor: pointer;
+                text-decoration: none;
+                color: #000;
+            }
+        }
+    }
+}

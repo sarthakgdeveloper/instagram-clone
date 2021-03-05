@@ -150,8 +150,9 @@
                     
                     
                     .userProfileImage{
-                        height: 100px;
-                        width: 100px;
+                        width: 50vw;
+                        height: 25vw;
+                        width: 25vw;
                     }
                 }
 
@@ -194,6 +195,12 @@
                 .userEngagement{
                     
                     width: 100%;
+
+                    p, a{
+                        font-weight: lighter;
+                        font-size: 4vw;
+
+                    }
                     
                 }
             }

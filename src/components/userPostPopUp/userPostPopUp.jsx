@@ -32,18 +32,21 @@ const UserPostPopUp = ({postPopUp, userPost, handlePopUpClose, currentUser, addL
         <div className='userPost__PopUpContainer'>
             <div className='userPost__PopUpImageContainer'>
                 <div className="userPost__PopUpImage">
-                    <img src={userPost.imageUrl} alt=""/>    
+                    <img src={userPost.imageUrl} alt="" onDoubleClick={() => {
+                    addLike(userPost,currentUser.userName, user)
+                    }}/>
                 </div>
                 <div className="userPost__PopUpInfo">
                     <div className="post__infoContainer">
                         <div className="post__info">
                             <span onClick={() => {
                                 addLike(userPost, currentUser.userName, user)
-                            }} ><i className={`far fa-heart ${userPost.likes.includes(currentUser.userName)?'liked':null}`}></i></span>
+                                
+                            }} ><i className={`fa fa-heart ${userPost.likes.includes(currentUser.userName)?'liked':null}`}></i></span>
                             <span><i className="far fa-comment"></i></span>
-                            <span><i className="fas fa-share"></i></span>
+                            {/* <span><i className="fas fa-share"></i></span> */}
                         </div>
-                        <span><i className="far fa-bookmark"></i></span>
+                        {/* <span><i className="far fa-bookmark"></i></span> */}
                     </div>
                     <div className='popUp_Likes'>
                         {userPost.likes.length}

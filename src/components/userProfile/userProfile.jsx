@@ -63,8 +63,8 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
                 </div>
                 <div className="userEngagement">
                     <div className="user__post"><p>{post ? Object.keys(post).length : 0} Post</p></div>
-                    <div className="user__follower" ><Link to={`/users/${userName}/followers`} >{follower.length} Followers</Link></div>
-                    <div className="user__following"><Link to={`/users/${userName}/followings`}>{following.length} Following</Link></div>
+                    <div className="user__follower" ><Link to={`/users/${userName}/followers`} >{follower?.length} Followers</Link></div>
+                    <div className="user__following"><Link to={`/users/${userName}/followings`}>{following?.length} Following</Link></div>
                 </div>
                 <div className="userBio">
                     <p>{Bio}</p>
@@ -79,9 +79,9 @@ const UserProfile = ({signingOut, currentUser, post, gettingUserPost}) => {
             <div className='userContent__Container'>
                 <div className="userContent__controls">
                     <button>Post</button>
-                    <button>Reels</button>
+                    {/* <button>Reels</button>
                     <button>Saved</button>
-                    <button>Tagged</button>
+                    <button>Tagged</button> */}
                 </div>
                 <div className="userContent">
                     {postCollection.map((postArr,index) => postArr ? (<UserPostCollection userPost={postArr} key={index} user='current'/>):null)}

@@ -27,7 +27,7 @@ const UserPost = ({match, currentUser, userPostState, loadUserPost}) => {
         currentUser && loadUserPost(currentUser.following)
     }, [currentUser, loadUserPost])
     const userPostArr = Object.values(userPostState);
-    return currentUser.following.length !== 0 ? (
+    return currentUser?.following?.length !== 0 ? (
         <div className='allPost__container'>
             <Route exact path={`${match.path}`} render={() => {
                 return (

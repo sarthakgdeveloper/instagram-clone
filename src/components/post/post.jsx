@@ -59,9 +59,9 @@ const Post = ({post, addLike, currentUser, addComment, deleteComment, loadProfil
                         likes.includes(currentUser.userName)?isPostLiked(false):isPostLiked(true);
                     }}><i className={`fa fa-heart ${likes.includes(currentUser.userName)?'liked':null}`}></i></span>
                     <span onClick={handlePopUpShow}><i className="far fa-comment"></i></span>
-                    <span><i className="fas fa-share"></i></span>
+                    {/* <span><i className="fas fa-share"></i></span> */}
                 </div>
-                <span><i className="far fa-bookmark"></i></span>
+                {/* <span><i className="far fa-bookmark"></i></span> */}
             </div>
             <div className='post__likes'>
                 <span>{likes.length ? likes.length:null}</span>

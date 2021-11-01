@@ -1,55 +1,54 @@
-.follow__btnContainer{
+.follow__btnContainer {
+  width: 100%;
+  height: fit-content;
+  text-align: start;
+  display: flex;
+  gap: 20px;
+
+  button {
+    cursor: pointer;
+    border: 1px solid lightgray;
+    outline: none;
+    padding: 8px 30px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background-color: #0095f6;
+    transition: 0.2s all ease;
+    border-radius: 8px;
+
+    &:hover {
+      color: #0095f6;
+      background-color: #fafafa;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .follow__btnContainer {
     width: 100%;
+    height: fit-content;
     text-align: start;
+    display: flex;
+    gap: 10px;
 
-    
-    .follow__btn{
-        cursor: pointer;
-        border: 1px solid lightgray;
-        outline: none;
-        padding: 8px 30px;
-        font-size: 14px;
-        font-weight: bold;
-        letter-spacing: .5px;
-        color: #fff;
-        background-color: #0095f6;
-        transition: .2s all ease;
-        
-        &:hover{
-            color: #0095f6;
-            background-color: #fafafa;
-        }
+    .follow__btn {
+      cursor: pointer;
+      border: 1px solid lightgray;
+      outline: none;
+      padding: 6px 10px;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      color: #fff;
+      background-color: #0095f6;
+      transition: 0.2s all ease;
+
+      &:hover {
+        color: #0095f6;
+        background-color: #fafafa;
+      }
     }
+  }
 }
-
-@media only screen and (max-width: 600px){
-    .follow__btnContainer{
-        width: 100%;
-        text-align: start;
-    
-        
-        .follow__btn{
-            cursor: pointer;
-            border: 1px solid lightgray;
-            outline: none;
-            padding: 6px 10px;
-            font-size: 10px;
-            font-weight: bold;
-            letter-spacing: .5px;
-            color: #fff;
-            background-color: #0095f6;
-            transition: .2s all ease;
-            
-            &:hover{
-                color: #0095f6;
-                background-color: #fafafa;
-            }
-        }
-    }
-}
-
-
-
-
-
-

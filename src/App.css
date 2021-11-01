@@ -1,9 +1,10 @@
-*{
+* {
   margin: 0;
 }
 
-.App{
+.App {
   background-color: #fafafa;
   height: 100%;
+  width: 100vw;
   touch-action: pan-y;
 }

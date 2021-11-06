@@ -1,0 +1,140 @@
+.messageChatBoxSection {
+  width: 100%;
+  height: calc(100vh - 130px);
+  padding: 20px 0;
+
+  .messageChatBox {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    margin: auto;
+    overflow: hidden;
+
+    div {
+      height: 100%;
+    }
+
+    .usersContainer {
+      width: 35%;
+      border-right: 1px solid #dbdbdb;
+    }
+    .messageBox {
+      width: 65%;
+
+      .userName {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 0;
+        padding-left: 10px;
+        border: 1px solid #dbdbdb;
+        border-top: 0;
+        border-left: 0;
+
+        .imageContainer {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          cursor: pointer;
+          overflow: hidden;
+
+          img {
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+          }
+        }
+
+        a {
+          font-size: 14px;
+          cursor: pointer;
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          color: #000;
+          text-decoration: none;
+        }
+      }
+
+      .message {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: auto;
+
+        .messagesContainer {
+          position: absolute;
+          width: 95%;
+          height: calc(100% - 120px);
+          top: 0;
+          overflow: auto;
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none;
+          scroll-behavior: smooth;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          .otherUserMessage,
+          .UserMessage {
+            height: fit-content;
+            width: fit-content;
+            margin: 10px 0;
+            max-width: 45%;
+            text-align: left;
+            word-wrap: break-word;
+          }
+
+          .UserMessage {
+            text-align: right;
+            margin-left: auto;
+          }
+        }
+
+        .messageInputContainer {
+          position: absolute;
+          left: 0;
+          bottom: 70px;
+          width: 100%;
+          min-height: 40px;
+          height: fit-content;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          input {
+            width: 90%;
+            height: 40px;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            outline: none;
+            padding: 0 15px;
+            font-size: 14px;
+          }
+
+          button {
+            position: absolute;
+            right: 20px;
+            border: none;
+            background-color: transparent;
+            color: #0095f6;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

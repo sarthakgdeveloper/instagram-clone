@@ -3,9 +3,11 @@
   height: fit-content;
   text-align: start;
   display: flex;
+  justify-content: flex-start;
   gap: 20px;
 
-  button {
+  button,
+  a {
     cursor: pointer;
     border: 1px solid lightgray;
     outline: none;
@@ -22,6 +24,11 @@
       color: #0095f6;
       background-color: #fafafa;
     }
+  }
+
+  a {
+    width: fit-content;
+    text-decoration: none;
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { loadProfile } from "../../redux/user/userAction";
 import {
@@ -129,7 +130,7 @@ const AnotherUserProfile = ({
             >
               {followCheck}
             </button>
-            <button>Message</button>
+            <Link to={`/message/${userData?.userName}`}>Message</Link>
           </div>
         </div>
       </div>

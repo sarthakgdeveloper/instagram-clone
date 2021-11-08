@@ -20,9 +20,29 @@
 
     .usersContainer {
       width: 35%;
-      border-right: 1px solid #dbdbdb;
+      height: 100%;
+      position: relative;
+      // top: 3px;
+
+      .eachUserName {
+        width: 90%;
+        height: fit-content;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 10px auto;
+
+        &:first-child {
+          margin-top: 18px;
+        }
+
+        span {
+          cursor: pointer;
+        }
+      }
     }
     .messageBox {
+      border-left: 1px solid #dbdbdb;
       width: 65%;
 
       .userName {
@@ -37,20 +57,6 @@
         border: 1px solid #dbdbdb;
         border-top: 0;
         border-left: 0;
-
-        .imageContainer {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          cursor: pointer;
-          overflow: hidden;
-
-          img {
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-          }
-        }
 
         a {
           font-size: 14px;

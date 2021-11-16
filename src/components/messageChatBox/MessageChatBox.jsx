@@ -12,32 +12,70 @@ function MessageChatBox({ currentUser, match }) {
   const [messageInput, getMessageInput] = useState("");
   const [userList, getUserList] = useState([]);
   const [messages, getMessages] = useState([]);
-  const userData = {
-    userName: match.params.userId,
-  };
+  const [noUser, setNoUser] = useState(
+    currentUser?.userName === match.params.userId
+  );
+
   let messagesId = [];
   const history = useHistory();
 
-  const getMessagesList = async () => {
+  const getMessagedUsersList = async () => {
     const userMessageRef = firestore.doc(
       `userMessages/${currentUser?.userName}`
     );
     const userSnapshot = await userMessageRef.get();
     const messageData = { ...userSnapshot.data() };
     messageData.messages &&
-      getUserList([...Object.keys(messageData?.messages)]);
+      getUserList([
+        ...Object.keys(messageData?.messages).map((user) => ({
+          user,
+          seen: messageData.messages[user].seen,
+        })),
+      ]);
+  };
+
+  const verifyOtherUser = async () => {
+    const otherUserRef = firestore.doc(`userMessages/${match.params.userId}`);
+    const otherUserSnapshot = await otherUserRef.get();
+    return !otherUserSnapshot.exists
+      ? setNoUser(true)
+      : setNoUser(currentUser?.userName === match.params.userId);
   };
 
   useEffect(() => {
     getMessages([]);
-    getMessagesList();
+    getMessagedUsersList();
+    verifyOtherUser();
+    messagesId = [];
     firestore
       .doc(`userMessages/${currentUser?.userName}`)
       .onSnapshot(async (snapshot) => {
         const messageData = { ...snapshot.data() };
+        console.log("1", match.params.userId);
+        if (!messageData.messages[match.params.userId].seen) {
+          console.log("2", match.params.userId);
+          // firestore.doc(`userMessages/${currentUser?.userName}`).update({
+          //   messages: {
+          //     ...messageData.messages,
+          //     [match.params.userId]: {
+          //       message: [...messageData.messages[match.params.userId].message],
+          //       seen: true,
+          //       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          //     },
+          //   },
+          // });
+        }
         const newMessagesId = messageData?.messages
           ? messageData?.messages[match?.params?.userId]?.message
           : [];
+        if (userList.length < Object.keys(messageData?.messages).length) {
+          getUserList([
+            ...Object.keys(messageData?.messages).map((user) => ({
+              user,
+              seen: messageData.messages[user].seen,
+            })),
+          ]);
+        }
         if (newMessagesId?.length > 0) {
           for (let i = 0; i < newMessagesId.length; i++) {
             if (!messagesId.includes(newMessagesId[i])) {
@@ -71,15 +109,16 @@ function MessageChatBox({ currentUser, match }) {
     if (messageInput.length <= 0) return;
     const userEachMessage = firestore.collection(`messages`).doc();
     const { userName: cUserName } = currentUser;
-    const { userName: oUserName } = userData;
     const userMessageRef = firestore.doc(`userMessages/${cUserName}`);
-    const otherUserMessageRef = firestore.doc(`userMessages/${oUserName}`);
+    const otherUserMessageRef = firestore.doc(
+      `userMessages/${match.params.userId}`
+    );
     const userSnapshot = await userMessageRef.get();
     const otherUserSnapshot = await otherUserMessageRef.get();
     const newMessage = {
       message: messageInput,
       from: currentUser?.userName,
-      to: userData?.userName,
+      to: match.params.userId,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -89,7 +128,7 @@ function MessageChatBox({ currentUser, match }) {
     if (!userSnapshot.exists) {
       await userMessageRef.set({
         messages: {
-          [oUserName]: {
+          [match.params.userId]: {
             message: [userEachMessage.id],
             seen: true,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -97,11 +136,11 @@ function MessageChatBox({ currentUser, match }) {
         },
       });
     } else {
-      if (!userSnapshot.data().messages[oUserName]) {
+      if (!userSnapshot.data().messages[match.params.userId]) {
         await userMessageRef.update({
           messages: {
             ...userSnapshot.data().messages,
-            [oUserName]: {
+            [match.params.userId]: {
               message: [userEachMessage.id],
               seen: true,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -112,9 +151,9 @@ function MessageChatBox({ currentUser, match }) {
         await userMessageRef.update({
           messages: {
             ...userSnapshot.data().messages,
-            [oUserName]: {
+            [match.params.userId]: {
               message: [
-                ...userSnapshot.data().messages[oUserName].message,
+                ...userSnapshot.data().messages[match.params.userId].message,
                 userEachMessage.id,
               ],
               seen: true,
@@ -163,56 +202,83 @@ function MessageChatBox({ currentUser, match }) {
       }
     }
     getMessageInput("");
-    await getMessagesList();
+    await getMessagedUsersList();
   };
 
   return (
     <div className={Styles.messageChatBoxSection}>
       <div className={Styles.messageChatBox}>
         <div className={Styles.usersContainer}>
-          {userList?.map((user, index) => (
-            <div
-              className={Styles.eachUserName}
-              key={index}
-              onClick={() => history.push(`/message/${user}`)}
-            >
-              <span>{user}</span>
-            </div>
-          ))}
+          {userList?.map((user, index) => {
+            return (
+              <div
+                className={Styles.eachUserName}
+                key={index}
+                onClick={() => history.push(`/message/${user?.user}`)}
+                style={
+                  user.seen || match.params.userId === user?.user
+                    ? {}
+                    : {
+                        fontWeight: "bold",
+                      }
+                }
+              >
+                <span>{user.user}</span>
+                <span
+                  className={Styles.newMessage}
+                  style={
+                    user.seen || match.params.userId === user?.user
+                      ? { display: "none" }
+                      : {}
+                  }
+                >
+                  New Messages
+                </span>
+              </div>
+            );
+          })}
         </div>
         <div className={Styles.messageBox}>
-          <div className={Styles.userName}>
-            <Link to={`/users/${userData?.userName}`}>
-              {userData?.userName}
-            </Link>
-          </div>
-          <div className={Styles.message}>
-            <div className={Styles.messagesContainer}>
-              {messages.map((message, index) => (
-                <div
-                  className={
-                    message?.from === currentUser?.userName
-                      ? Styles.UserMessage
-                      : Styles.otherUserMessage
-                  }
-                  key={index}
-                >
-                  <span>{message?.message}</span>
+          {noUser ? (
+            <div className={Styles.noUserContainer}>Your Messages</div>
+          ) : (
+            <>
+              <div className={Styles.userName}>
+                <Link to={`/users/${match.params.userId}`}>
+                  {match.params.userId}
+                </Link>
+              </div>
+              <div className={Styles.message}>
+                <div className={Styles.messagesContainer}>
+                  {messages.map((message, index) => {
+                    return (
+                      <div
+                        className={
+                          message?.from === currentUser?.userName
+                            ? Styles.UserMessage
+                            : Styles.otherUserMessageRef
+                        }
+                        key={index}
+                      >
+                        <span>{message?.message}</span>
+                      </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
-            <div className={Styles.messageInputContainer}>
-              <input
-                className={Styles.messageInput}
-                placeholder="Message..."
-                value={messageInput}
-                onChange={handleMessageInput}
-              />
-              {messageInput.length > 0 && (
-                <button onClick={handleSendMessage}>Send</button>
-              )}
-            </div>
-          </div>
+                <div className={Styles.messageInputContainer}>
+                  <input
+                    className={Styles.messageInput}
+                    placeholder="Message..."
+                    value={messageInput}
+                    onChange={handleMessageInput}
+                  />
+                  {messageInput.length > 0 && (
+                    <button onClick={handleSendMessage}>Send</button>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

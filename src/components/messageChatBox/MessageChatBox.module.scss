@@ -7,14 +7,14 @@
     width: 60%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border: 1px solid #dbdbdb;
     border-radius: 4px;
     margin: auto;
     overflow: hidden;
 
-    div {
+    & > div {
       height: 100%;
     }
 
@@ -22,7 +22,6 @@
       width: 35%;
       height: 100%;
       position: relative;
-      // top: 3px;
 
       .eachUserName {
         width: 90%;
@@ -39,6 +38,13 @@
         span {
           cursor: pointer;
         }
+      }
+
+      .newMessage {
+        color: rgb(137, 137, 137);
+        font-weight: lighter;
+        margin-left: auto;
+        font-size: 12px;
       }
     }
     .messageBox {
@@ -140,6 +146,14 @@
             cursor: pointer;
           }
         }
+      }
+
+      .noUserContainer {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

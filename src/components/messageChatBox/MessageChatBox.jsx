@@ -19,19 +19,25 @@ function MessageChatBox({ currentUser, match }) {
   let messagesId = [];
   const history = useHistory();
 
+  const setUsersAsPerTimestamp = (users) => {
+    let userArr = Object.entries(users)
+      .map((userDetail) => {
+        return {
+          ...userDetail[1],
+          user: userDetail[0],
+        };
+      })
+      .sort((x, y) => y?.timestamp?.seconds - x?.timestamp?.seconds);
+    getUserList([...userArr]);
+  };
+
   const getMessagedUsersList = async () => {
     const userMessageRef = firestore.doc(
       `userMessages/${currentUser?.userName}`
     );
     const userSnapshot = await userMessageRef.get();
     const messageData = { ...userSnapshot.data() };
-    messageData.messages &&
-      getUserList([
-        ...Object.keys(messageData?.messages).map((user) => ({
-          user,
-          seen: messageData.messages[user].seen,
-        })),
-      ]);
+    messageData.messages && setUsersAsPerTimestamp(messageData.messages);
   };
 
   const verifyOtherUser = async () => {
@@ -43,8 +49,11 @@ function MessageChatBox({ currentUser, match }) {
   };
 
   useEffect(() => {
-    getMessages([]);
     getMessagedUsersList();
+  }, []);
+
+  useEffect(() => {
+    getMessages([]);
     verifyOtherUser();
     messagesId = [];
     const unsubscribe = firestore
@@ -66,12 +75,7 @@ function MessageChatBox({ currentUser, match }) {
         const newMessagesId = messageData?.messages
           ? messageData?.messages[match?.params?.userId]?.message
           : [];
-        getUserList([
-          ...Object.keys(messageData?.messages).map((user) => ({
-            user,
-            seen: messageData.messages[user].seen,
-          })),
-        ]);
+        setUsersAsPerTimestamp(messageData.messages);
         if (newMessagesId?.length > 0) {
           newMessagesId.forEach(async (messageID) => {
             if (!messagesId.includes(messageID)) {

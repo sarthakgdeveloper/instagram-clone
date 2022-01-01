@@ -47,41 +47,35 @@ function MessageChatBox({ currentUser, match }) {
     getMessagedUsersList();
     verifyOtherUser();
     messagesId = [];
-    firestore
+    const unsubscribe = firestore
       .doc(`userMessages/${currentUser?.userName}`)
       .onSnapshot(async (snapshot) => {
         const messageData = { ...snapshot.data() };
-        console.log("1", match.params.userId);
         if (!messageData.messages[match.params.userId].seen) {
-          console.log("2", match.params.userId);
-          // firestore.doc(`userMessages/${currentUser?.userName}`).update({
-          //   messages: {
-          //     ...messageData.messages,
-          //     [match.params.userId]: {
-          //       message: [...messageData.messages[match.params.userId].message],
-          //       seen: true,
-          //       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          //     },
-          //   },
-          // });
+          firestore.doc(`userMessages/${currentUser?.userName}`).update({
+            messages: {
+              ...messageData.messages,
+              [match.params.userId]: {
+                message: [...messageData.messages[match.params.userId].message],
+                seen: true,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              },
+            },
+          });
         }
         const newMessagesId = messageData?.messages
           ? messageData?.messages[match?.params?.userId]?.message
           : [];
-        if (userList.length < Object.keys(messageData?.messages).length) {
-          getUserList([
-            ...Object.keys(messageData?.messages).map((user) => ({
-              user,
-              seen: messageData.messages[user].seen,
-            })),
-          ]);
-        }
+        getUserList([
+          ...Object.keys(messageData?.messages).map((user) => ({
+            user,
+            seen: messageData.messages[user].seen,
+          })),
+        ]);
         if (newMessagesId?.length > 0) {
-          for (let i = 0; i < newMessagesId.length; i++) {
-            if (!messagesId.includes(newMessagesId[i])) {
-              const userMessageRef = firestore.doc(
-                `messages/${newMessagesId[i]}`
-              );
+          newMessagesId.forEach(async (messageID) => {
+            if (!messagesId.includes(messageID)) {
+              const userMessageRef = firestore.doc(`messages/${messageID}`);
               const messageSnapshot = await userMessageRef.get();
               const messageData = messageSnapshot.data();
               getMessages((prevValue) => {
@@ -93,10 +87,12 @@ function MessageChatBox({ currentUser, match }) {
                 ];
               });
             }
-          }
+          });
           messagesId = newMessagesId;
         }
       });
+
+    return () => unsubscribe();
   }, [match?.params?.userId]);
 
   const handleMessageInput = (e) => {

@@ -1,8 +1,5 @@
 import {updatePostInObj} from '../posts/functionsInReducers'
-
 import userTypes from './userTypes';
-
-
 const INITIAL_STATE = {
     userProfileScreenLoaded: false,
     userData: null,
@@ -10,11 +7,8 @@ const INITIAL_STATE = {
     pageNotFound: false,
     profileAskedBySearch: false
 };
-
-
 const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
-
         case userTypes.LOADED_PROFILE:
             return {
                 ...state,
@@ -54,13 +48,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 profileAskedBySearch: false
             }
-
         default:
             return{
                 ...state
             }
     }
 }
-
 export default userReducer;
 

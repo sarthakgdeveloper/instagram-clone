@@ -2,18 +2,13 @@ import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import {signInStart} from '../../redux/mainUser/mainUserAction';
-
-
 import './signIn.scss';
-
 const UserSignIn = ({signIn}) => {
-
     const [signInInfo, setSignInInfo] = useState({
         email: '',
         password: '',
     })
     const {email, password} = signInInfo;
-
     const handleChange = (e) => {
         const {name, value} = e.target;
         setSignInInfo({
@@ -21,7 +16,6 @@ const UserSignIn = ({signIn}) => {
             [name]: value
         })
     }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         signIn({email, password});
@@ -42,9 +36,7 @@ const UserSignIn = ({signIn}) => {
         </div>
     )
 };
-
 const mapDispatchToProps = dispatch => ({
     signIn: (info) => dispatch(signInStart(info))
 })
-
 export default connect(null, mapDispatchToProps)(UserSignIn);

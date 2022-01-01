@@ -7,13 +7,7 @@ import { postState } from '../../redux/posts/posts.selector';
 import {createStructuredSelector} from 'reselect';
 import {getPost} from '../../redux/posts/posts.action';
 
-
-
-
-
 import './userPost.scss';
-
-
 const UserPostPage = ({userPostState}) => {
     return userPostState ? userPostState.map(post => (
         <Post key={`${post.uid}`}post={post}/>
@@ -21,7 +15,6 @@ const UserPostPage = ({userPostState}) => {
         <div>hello</div>
     )
 }
-
 const UserPost = ({match, currentUser, userPostState, loadUserPost}) => {
     useEffect(() => {
         currentUser && loadUserPost(currentUser.following)
@@ -42,15 +35,12 @@ const UserPost = ({match, currentUser, userPostState, loadUserPost}) => {
         </div>
     )
 };
-
 const mapStateToProps = createStructuredSelector({
     currentUser: getCurrentUser,
     userPostState: postState
 })
-
 const mapDispatchToProps = dispatch => ({
     loadUserPost: (currentUserFollowing) => dispatch(getPost(currentUserFollowing)),
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPost);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import firebase from "firebase";
 import { firestore } from "../../Firebase/firebase.utils";
@@ -16,6 +16,8 @@ function MessageChatBox({ currentUser, match }) {
     currentUser?.userName === match.params.userId
   );
   const [validScreen, isValidScreen] = useState(window.innerWidth > 1040);
+
+  const messagesContainerRef = useRef();
 
   let messagesId = [];
   const history = useHistory();
@@ -47,6 +49,24 @@ function MessageChatBox({ currentUser, match }) {
     return !otherUserSnapshot.exists
       ? setNoUser(true)
       : setNoUser(currentUser?.userName === match.params.userId);
+  };
+
+  const autoScroll = () => {
+    const newMessage = messagesContainerRef.current.lastElementChild;
+    const newMessageStyles = getComputedStyle(newMessage);
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom);
+    const newMessageHeight = newMessage.offsetHeight + newMessageMargin;
+
+    const visibleHeight = messagesContainerRef.current.offsetHeight;
+
+    const containerHeight = messagesContainerRef.current.scrollHeight;
+
+    const scrollOffset = messagesContainerRef.current.scrollTop + visibleHeight;
+
+    if (containerHeight - newMessageHeight <= scrollOffset) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
@@ -104,6 +124,13 @@ function MessageChatBox({ currentUser, match }) {
 
     return () => unsubscribe();
   }, [match?.params?.userId]);
+
+  useEffect(() => {
+    if (messagesContainerRef.current && messages.length > 0) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  }, [messagesContainerRef.current, messages]);
 
   const handleMessageInput = (e) => {
     if (!e) return;
@@ -260,7 +287,10 @@ function MessageChatBox({ currentUser, match }) {
                   </Link>
                 </div>
                 <div className={Styles.message}>
-                  <div className={Styles.messagesContainer}>
+                  <div
+                    className={Styles.messagesContainer}
+                    ref={messagesContainerRef}
+                  >
                     {messages.map((message, index) => {
                       return (
                         <div

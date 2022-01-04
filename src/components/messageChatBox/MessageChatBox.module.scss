@@ -105,11 +105,15 @@
             max-width: 45%;
             text-align: left;
             word-wrap: break-word;
+            // position: absolute;
+            // bottom: 0;
+            // left: 0;
           }
 
           .UserMessage {
             text-align: right;
             margin-left: auto;
+            // right: 0;
           }
         }
 
